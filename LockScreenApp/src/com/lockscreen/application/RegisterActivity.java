@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -116,6 +117,9 @@ public class RegisterActivity extends FragmentActivity {
 				devInfo.put("Model", Build.MODEL);
 				TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 				devInfo.put("UniqueId", telephonyManager.getDeviceId());
+				
+//				devInfo.put("UniqueId", Secure.getString(context.getContentResolver(), Secure.ANDROID_ID));
+				
 
 				newUser.put("DeviceInfo", devInfo);
 				
@@ -155,7 +159,7 @@ public class RegisterActivity extends FragmentActivity {
 					
 					String apikey = json.getString("Key");
 					
-					new UserDetails(userid, fname, lname, email, gender,
+					Constant.currentLoginUser = new UserDetails(userid, fname, lname, email, gender,
 							birthday, status, img, apikey);
 
 				} else {
