@@ -5,28 +5,29 @@
     <string name="app_name">LockScreenApp</string>
     <string name="unloack">Unlock</string>
     <string name="nowifi">No Wifi</string>
+
     <color name="mycolor1">#F5DC49</color>
+
     <string name="home">Home</string>
     <string name="previewlockscreen">Preview Lock Screen</string>
-	<string name="registerbtn">Register</string>
-	<string name="login">Login</string>
+    <string name="registerbtn">Register</string>
+    <string name="login">Login</string>
     <string name="firstname">First Name</string>
     <string name="lastname">Last Name</string>
-	<string name="email">Email</string>
-	<string name="password">Password</string>
-	<string name="progesschecking">Loading ..\..</string>
-	<string name="fillrequired">Fill in all fields</string>
-	<string name="regsuccess">Success register as member</string>
-	<string name="forgotpassword">Forgot Password?</string>
-	<string name="enteremailtoreset">Enter email to reset password : </string>
-	<string name="reset">Reset</string>
-	<string name="resetpasswordmailsend">An email been send to your email. Please follow the step to reset the password.</string>
-	
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="progesschecking">Loading ..\..</string>
+    <string name="fillrequired">Fill in all fields</string>
+    <string name="regsuccess">Success register as member</string>
+    <string name="forgotpassword">Forgot Password?</string>
+    <string name="enteremailtoreset">Enter email to reset password : </string>
+    <string name="reset">Reset</string>
+    <string name="resetpasswordmailsend">An email been send to your email. Please follow the step to reset the password.</string>
+
     <!-- Facebook -->
-     <string name="APP_ID">403549449813138</string>
-    
-    
-     <!-- Side Menu Item -->
+    <string name="APP_ID">403549449813138</string>
+
+    <!-- Side Menu Item -->
     <string name="title_section1">Home</string>
     <string name="title_section2">Redeem</string>
     <string name="title_section3">Records</string>
@@ -37,6 +38,11 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
     <string name="action_account">Accounts</string>
-     <string name="action_logout">Logout</string>
-    
+    <string name="action_logout">Logout</string>
+
+    <!-- Campaign Details -->
+    <string name="campaignname">Name</string>
+    <string name="campaignmerchant">Merchant</string>
+    <string name="campaignlink">Link</string>
+
 </resources>

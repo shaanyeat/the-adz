@@ -53,16 +53,20 @@ import com.lockscreen.adapter.UserDetails;
     		editor.putString(KEY_PASS, Constant.currentLoginUser.getpassword());
     		editor.putString(KEY_NOTIF, Constant.currentLoginUser.getnotification());
     		editor.putString(KEY_IMAGEURL, Constant.currentLoginUser.getimgUrl());
-    		editor.putString(KEY_APIKEY, Constant.currentLoginUser.getApiKey());
+//    		editor.putString(KEY_APIKEY, Constant.currentLoginUser.getApiKey());
     	}
     	
     	
     	editor.commit();
     }
     
-    public void setapikey(){
-    	editor.putString(KEY_APIKEY, Constant.currentLoginUser.getApiKey());
+    public void setapikey(String apikey){
+    	editor.putString(KEY_APIKEY, apikey);
     	editor.commit();
+    }
+    
+    public String getapikey(){
+    	return pref.getString(KEY_APIKEY, null);
     }
     
     
@@ -84,7 +88,7 @@ import com.lockscreen.adapter.UserDetails;
 		Constant.currentLoginUser.setpassword(pref.getString(KEY_PASS, null));
 		Constant.currentLoginUser.setnotification(pref.getString(KEY_NOTIF, null));
 		Constant.currentLoginUser.setimgUrl(pref.getString(KEY_IMAGEURL, null));
-		Constant.currentLoginUser.setApiKey(pref.getString(KEY_APIKEY, null));
+//		Constant.currentLoginUser.setApiKey(pref.getString(KEY_APIKEY, null));
     }
     
     

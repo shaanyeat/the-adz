@@ -1,6 +1,7 @@
 package com.lockscreen.fragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,11 +21,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lockscreen.R;
+import com.lockscreen.WebViewActivity;
 import com.lockscreen.adapter.CampaignItem;
+import com.lockscreen.application.CampaignDetails;
 import com.lockscreen.utility.Constant;
 import com.lockscreen.utility.RestClient;
 import com.lockscreen.utility.SharedPreference;
@@ -86,22 +92,24 @@ public class CampaignFragment extends Fragment {
 			Integer returnCode = 0;
 			try {
 
-				JSONObject campaignCoor = new JSONObject();
+//				JSONObject campaignCoor = new JSONObject();
 
-				campaignCoor.put("latitude", "3.31766");
-				campaignCoor.put("longitude", "101.4839");
+//				campaignCoor.put("latitude", "3.31766");
+//				campaignCoor.put("longitude", "101.4839");
+//				campaignCoor.put("latitude", null);
+//				campaignCoor.put("longitude", null);
 
 				RestClient client = new RestClient(Constant.BASEWEBSERVICEURL
 						+ "campaign/list");
 
 				client.AddHeader("Content-type", "application/json");
 				client.AddHeader("Accept", "application/json");
-				Log.v("KEY", Constant.currentLoginUser.getApiKey());
-				client.AddHeader("Key", Constant.currentLoginUser.getApiKey());
+				Log.v("KEY", pref.getapikey());
+				client.AddHeader("Key", pref.getapikey());
 
-				// client.Execute(RestClient.GET);
-				Log.v("Campaign_List", campaignCoor.toString());
-				client.ExecuteHybridJsonPost(campaignCoor.toString());
+				client.Execute(RestClient.GET);
+//				Log.v("Campaign_List", campaignCoor.toString());
+//				client.ExecuteHybridJsonPost(campaignCoor.toString());
 
 				String response = client.getResponse();
 				Log.v("Campaign_List", response);
@@ -132,12 +140,13 @@ public class CampaignFragment extends Fragment {
 
 						String imgName = res.getString("ImageName");
 						String imgUrl = res.getString("ImageUrl");
+						String linkurl = res.getString("LinkURL");
 						
 //						cItems.add(new CampaignItem(id, name, refercode,
 //								startdate, enddate, mId, mName, imgId, imgName,
 //								imgUrl, ImgUrlLink));
 						
-						cItems.add(new CampaignItem(id, name, mId, mName, imgName,imgUrl));
+						cItems.add(new CampaignItem(id, name, mId, mName, imgName,imgUrl, linkurl));
 						
 
 					}
@@ -149,8 +158,8 @@ public class CampaignFragment extends Fragment {
 					String apiKey = json.getString("Key");
 
 					// Constant.currentLoginUser = new UserDetails();
-					Constant.currentLoginUser.setApiKey(apiKey);
-					pref.setapikey();
+//					Constant.currentLoginUser.setApiKey(apiKey);
+					pref.setapikey(apiKey);
 
 				} else {
 					JSONObject reststatus = json
@@ -174,6 +183,7 @@ public class CampaignFragment extends Fragment {
 			// UI work allowed here
 
 			if (successcode.equals("1")) {
+				
 				ItemAdapter adapter = new ItemAdapter(getActivity(), cItems);
 				campaignList.setAdapter(adapter);
 			}
@@ -211,6 +221,7 @@ public class CampaignFragment extends Fragment {
 			public TextView cName;
 			public TextView campaignMerchantName;
 			public ImageView campaignImg;
+			public LinearLayout itemlayout;
 
 		}
 
@@ -226,6 +237,8 @@ public class CampaignFragment extends Fragment {
 						parent, false);
 				holder = new ViewHolder();
 
+				holder.itemlayout = (LinearLayout) convertView.findViewById(R.id.itemlayout);
+				
 				holder.cName = (TextView) convertView
 						.findViewById(R.id.campaignName);
 				holder.campaignMerchantName = (TextView) convertView
@@ -250,12 +263,14 @@ public class CampaignFragment extends Fragment {
 			imageLoader.displayImage(item.subImgUrl,
 					holder.campaignImg, options);
 
-			holder.cName.setOnClickListener(new OnClickListener() {
+			holder.itemlayout.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-
+					Intent intent = new Intent(activity, CampaignDetails.class);
+					intent.putExtra("campaignId",String.valueOf(item.campaignId));
+					activity.startActivity(intent);
 				}
 			});
 

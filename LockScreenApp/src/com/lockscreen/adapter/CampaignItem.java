@@ -13,11 +13,12 @@ public class CampaignItem {
 	public String subImgName;
 	public String subImgUrl;
 	public String subImgUrlLink;
+	public String linkUrl;
 
 	public CampaignItem(Integer campaignId, String campaignName,
 			String referenceCode, String startDate, String endDate,
 			Integer merchantId, String merchanName, String subImgId,
-			String subImgName, String subImgUrl, String subImgUrlLink) {
+			String subImgName, String subImgUrl, String subImgUrlLink, String linkUrl) {
 
 		this.campaignId = campaignId;
 		this.campaignName = campaignName;
@@ -30,11 +31,12 @@ public class CampaignItem {
 		this.subImgName = subImgName;
 		this.subImgUrl = subImgUrl;
 		this.subImgUrlLink = subImgUrlLink;
+		this.linkUrl = linkUrl;
 
 	}
 	
 	
-	public CampaignItem(Integer id,String name,Integer mId, String mName, String imgName, String imgUrl){
+	public CampaignItem(Integer id,String name,Integer mId, String mName, String imgName, String imgUrl, String linkUrl){
 		
 		this.campaignId = id;
 		this.campaignName = name;
@@ -42,6 +44,11 @@ public class CampaignItem {
 		this.merchanName = mName;
 		this.subImgName = imgName;
 		this.subImgUrl = imgUrl;
+		this.linkUrl = linkUrl;
+	}
+	
+	public CampaignItem(String subImgUrl){
+		this.subImgUrl = subImgUrl;
 	}
 
 }

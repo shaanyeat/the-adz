@@ -1,7 +1,5 @@
 package com.lockscreen.application;
 
-import java.lang.reflect.Field;
-
 import org.json.JSONObject;
 
 import android.app.ActionBar;
@@ -10,7 +8,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings.Secure;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -29,7 +26,8 @@ import com.lockscreen.utility.SharedPreference;
 
 public class RegisterActivity extends FragmentActivity {
 
-	EditText firstName, lastName, email, password;
+//	EditText firstName, lastName;
+	EditText email, password;
 	Button btnRegister;
 	private SharedPreference pref;
 
@@ -43,8 +41,8 @@ public class RegisterActivity extends FragmentActivity {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		firstName = (EditText) findViewById(R.id.firstName);
-		lastName = (EditText) findViewById(R.id.lastName);
+//		firstName = (EditText) findViewById(R.id.firstName);
+//		lastName = (EditText) findViewById(R.id.lastName);
 		email = (EditText) findViewById(R.id.email);
 		password = (EditText) findViewById(R.id.password);
 		btnRegister = (Button) findViewById(R.id.btnRegister);
@@ -53,9 +51,7 @@ public class RegisterActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (!firstName.getText().toString().equals("")
-						&& !lastName.getText().toString().equals("")
-						&& !email.getText().toString().equals("")
+				if (!email.getText().toString().equals("")
 						&& !password.getText().toString().equals("")) {
 					new SignUpTask(RegisterActivity.this)
 							.execute((Void[]) null);
@@ -102,8 +98,8 @@ public class RegisterActivity extends FragmentActivity {
 			try {
 				JSONObject newUser = new JSONObject();
 
-				newUser.put("FirstName", firstName.getText().toString());
-				newUser.put("LastName", lastName.getText().toString());
+				newUser.put("FirstName", "");
+				newUser.put("LastName", "");
 				newUser.put("Email", email.getText().toString());
 				newUser.put("Password", password.getText().toString());
 

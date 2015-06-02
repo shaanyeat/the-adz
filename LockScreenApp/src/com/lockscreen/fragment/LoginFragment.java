@@ -234,14 +234,14 @@ public class LoginFragment extends FragmentActivity {
 			normalLoginLayout.setVisibility(View.GONE);
 			authButton.setVisibility(View.GONE);
 			actionBar.setDisplayHomeAsUpEnabled(true);
-//			pref.isFacebookLogin(true);
+			pref.isFacebookLogin(true);
 
 		} else if (state.isClosed()) {
 			Log.i(TAG, "Logged out...");
 			profileLayout.setVisibility(View.INVISIBLE);
 			normalLoginLayout.setVisibility(View.VISIBLE);
 			actionBar.setDisplayHomeAsUpEnabled(false);
-//			pref.isFacebookLogin(false);
+			pref.isFacebookLogin(false);
 		}
 	}
 
@@ -372,6 +372,9 @@ public class LoginFragment extends FragmentActivity {
 					
 					Constant.currentLoginUser = new UserDetails(userid, fname,
 							lname, email, gender, birthday, status, img, apikey);
+					
+					pref.setapikey(apikey);
+					
 					
 
 				} else {
@@ -505,6 +508,8 @@ public class LoginFragment extends FragmentActivity {
 
 					Constant.currentLoginUser = new UserDetails(userid, fname,
 							lname, email, gender, birthday, status, img, apikey);
+					
+					pref.setapikey(apikey);
 					
 				} else {
 					JSONObject reststatus = json

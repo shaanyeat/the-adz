@@ -4,44 +4,41 @@
     android:layout_height="match_parent"
     android:layout_margin="10dp"
     android:orientation="vertical" >
-    
-    
+
     <EditText
         android:id="@+id/firstName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/firstname"
-        />
-    
+        android:visibility="gone" />
+
     <EditText
         android:id="@+id/lastName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/lastname"
-        />
-    
+        android:visibility="gone" />
+
     <EditText
         android:id="@+id/email"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        />
-    
+        android:inputType="textEmailAddress" />
+
     <EditText
         android:id="@+id/password"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:inputType="textPassword"
-        />
-    
-    <Button 
+        android:inputType="textPassword" />
+
+    <Button
         android:id="@+id/btnRegister"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:background="#a0db8e"
-        android:text="@string/registerbtn"/>
+        android:text="@string/registerbtn" />
 
 </LinearLayout>
