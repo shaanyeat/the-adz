@@ -1,12 +1,15 @@
 package com.lockscreen.adapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,28 +23,40 @@ import com.lockscreen.R;
 import com.lockscreen.WebViewActivity;
 import com.lockscreen.application.RegisterActivity;
 import com.lockscreen.fragment.LoginFragment;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class DealGalleryAdapter extends PagerAdapter {
 
 	private Activity activity;
-	private ArrayList<CampaignItem> _imagePaths;
-	private ArrayList<CampaignItem> _imagelink;
 	private LayoutInflater inflater;
 	private ArrayList<CampaignItem> mItems;
 	Boolean dummyflag = false;
 	int[] flag;
 
+	DisplayImageOptions options;
+
 	// constructor
-	public DealGalleryAdapter(Activity activity, ArrayList<CampaignItem> imagePaths, Boolean dummyflag) {
+	public DealGalleryAdapter(Activity activity,
+			ArrayList<CampaignItem> imagePaths, Boolean dummyflag) {
 		this.activity = activity;
 		this.mItems = imagePaths;
 		this.dummyflag = dummyflag;
+
+		options = new DisplayImageOptions.Builder().cacheInMemory(true)
+				.cacheOnDisk(true).considerExifParams(true)
+				.bitmapConfig(Bitmap.Config.RGB_565).build();
 	}
-	
-	//campaignItem Constructor
+
+	// campaignItem Constructor
 	public DealGalleryAdapter(Activity activity, ArrayList<CampaignItem> items) {
 		this.activity = activity;
 		this.mItems = items;
+
+		options = new DisplayImageOptions.Builder().cacheInMemory(true)
+				.cacheOnDisk(true).considerExifParams(true)
+				.bitmapConfig(Bitmap.Config.RGB_565).build();
 	}
 
 	public DealGalleryAdapter(Activity activity, int[] imagePaths) {
@@ -69,9 +84,8 @@ public class DealGalleryAdapter extends PagerAdapter {
 				container, false);
 
 		imgDisplay = (ImageView) itemView.findViewById(R.id.imgDisplay);
-		
+
 		final CampaignItem item = mItems.get(position);
-		
 
 		imgDisplay.setOnClickListener(new OnClickListener() {
 
@@ -83,10 +97,9 @@ public class DealGalleryAdapter extends PagerAdapter {
 				// Toast.LENGTH_LONG).show();
 				if (dummyflag == false) {
 					Intent intent = new Intent(activity, WebViewActivity.class);
-					intent.putExtra("imageurl",
-							item.linkUrl);
+					intent.putExtra("imageurl", item.linkUrl);
 					activity.startActivity(intent);
-				}else{
+				} else {
 					Intent intent = new Intent(activity, LoginFragment.class);
 					activity.startActivity(intent);
 				}
@@ -94,13 +107,15 @@ public class DealGalleryAdapter extends PagerAdapter {
 			}
 		});
 
-		try {
+		// LockScreenAppActivity.imageLoader.DisplayImage(item.subImgUrl,
+		// 0,imgDisplay);
+		ImageLoader imageLoader = ImageLoader.getInstance();
+		imageLoader.init(ImageLoaderConfiguration.createDefault(activity));
 
-			LockScreenAppActivity.imageLoader.DisplayImage(item.subImgUrl, 0, imgDisplay);
-			// sleep(3000);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Log.v("IMAGE URL", item.subImgUrl);
+
+		imageLoader.displayImage(item.subImgUrl, imgDisplay, options);
+		// sleep(3000);
 
 		((ViewPager) container).addView(itemView);
 

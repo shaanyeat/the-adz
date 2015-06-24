@@ -2,13 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@drawable/sub_bg"
     android:orientation="vertical" >
 
+    <!--
     <ListView
         android:id="@+id/campaignList"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
     </ListView>
+    -->
+
+    <GridView
+        android:id="@+id/campaignGrid"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:horizontalSpacing="10dp"
+        android:numColumns="2"
+        android:padding="8dp"
+        android:verticalSpacing="10dp" />
 
 </RelativeLayout>

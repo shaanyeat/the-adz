@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#000000"
@@ -15,28 +16,37 @@
             android:layout_height="fill_parent"
             android:background="#ffffff" />
 
-        <DigitalClock
-            android:id="@+id/digitalClock1"
+        <TextView
+            android:id="@+id/dayInWeek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:text="DigitalClock"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
             android:textColor="#ffffff"
-            android:textSize="50sp"
-            android:textStyle="bold" />
+            android:textSize="35sp" />
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/digitalClock1"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="-10dp"
-            android:hint="date"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/dayInWeek"
+            android:layout_marginLeft="8dp"
             android:textColor="#ffffff"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
+
+        <DigitalClock
+            android:id="@+id/digitalClock1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/date"
+            android:layout_marginLeft="8dp"
+            android:textColor="#ffffff"
+            android:textSize="50sp"
+            android:textStyle="bold" />
+        
 
         <RelativeLayout
             android:id="@+id/selectlayout"
@@ -69,6 +79,41 @@
                 android:src="@drawable/unlock"
                 android:visibility="visible" />
         </LinearLayout>
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/multiple_actions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="60dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            fab:fab_addButtonColorNormal="@color/white"
+            fab:fab_addButtonColorPressed="@color/white_pressed"
+            fab:fab_addButtonPlusIconColor="@color/half_black"
+            fab:fab_labelStyle="@style/menu_labels_style" >
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/action_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_colorPressed="@color/white_pressed"
+                fab:fab_title="Action A" />
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/action_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_colorPressed="@color/white_pressed"
+                fab:fab_title="Action B" />
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
     </RelativeLayout>
+    
+    
+   
 
 </LinearLayout>

@@ -44,10 +44,10 @@ import com.lockscreen.utility.SharedPreference;
 
 public class LoginFragment extends FragmentActivity {
 
-	TextView userName, userEmail, userGender, userLocation, forgotPassword;
+	TextView userName, userEmail, userGender, userLocation, forgotPassword, tvRegister;
 	ProfilePictureView userPic;
 	RelativeLayout profileLayout;
-	Button btnRegister, btnLogin;
+	Button btnLogin;
 	EditText username, password;
 	LinearLayout normalLoginLayout;
 	LoginButton authButton;
@@ -79,14 +79,14 @@ public class LoginFragment extends FragmentActivity {
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 
-		actionBar = getActionBar();
+	/*	actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		if (!pref.GetLogin()) {
 			actionBar.setDisplayHomeAsUpEnabled(false);
 		} else {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
-
+*/
 		authButton = (LoginButton) findViewById(R.id.authButton);
 		// authButton.setFragment(this);
 		authButton.setReadPermissions(Arrays.asList("email", "user_location"));
@@ -98,14 +98,14 @@ public class LoginFragment extends FragmentActivity {
 		userGender = (TextView) findViewById(R.id.userGender);
 		userLocation = (TextView) findViewById(R.id.userLocation);
 		profileLayout = (RelativeLayout) findViewById(R.id.profileLayout);
-		btnRegister = (Button) findViewById(R.id.btnRegister);
+		tvRegister = (TextView) findViewById(R.id.tvRegister);
 		username = (EditText) findViewById(R.id.username);
 		password = (EditText) findViewById(R.id.password);
 		btnLogin = (Button) findViewById(R.id.btnLogin);
 		forgotPassword = (TextView) findViewById(R.id.forgotPassword);
 		normalLoginLayout = (LinearLayout) findViewById(R.id.normalLoginLayout);
 
-		btnRegister.setOnClickListener(new OnClickListener() {
+		tvRegister.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -233,14 +233,14 @@ public class LoginFragment extends FragmentActivity {
 			profileLayout.setVisibility(View.VISIBLE);
 			normalLoginLayout.setVisibility(View.GONE);
 			authButton.setVisibility(View.GONE);
-			actionBar.setDisplayHomeAsUpEnabled(true);
+//			actionBar.setDisplayHomeAsUpEnabled(true);
 			pref.isFacebookLogin(true);
 
 		} else if (state.isClosed()) {
 			Log.i(TAG, "Logged out...");
 			profileLayout.setVisibility(View.INVISIBLE);
 			normalLoginLayout.setVisibility(View.VISIBLE);
-			actionBar.setDisplayHomeAsUpEnabled(false);
+//			actionBar.setDisplayHomeAsUpEnabled(false);
 			pref.isFacebookLogin(false);
 		}
 	}

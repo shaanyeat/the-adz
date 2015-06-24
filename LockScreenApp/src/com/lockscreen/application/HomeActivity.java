@@ -39,7 +39,7 @@ public class HomeActivity extends FragmentActivity implements
 	private ActionBar actionBar;
 	private SharedPreference pref;
 	// Tab titles
-	private String[] tabs = { "Home", "Campaign", "Records", "Ranking" };
+	private String[] tabs = { "Home", "Campaign", "Rewards", "History" };
 
 	private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
 	// Location updates intervals in sec
@@ -79,7 +79,7 @@ public class HomeActivity extends FragmentActivity implements
 					LockScreenAppActivity.class);
 			startActivity(intent);
 
-			// set fristtime pref to false
+			// set firsttime pref to false
 			Editor editor = prefs.edit();
 			editor.putBoolean("firsttime", false);
 			editor.commit();
@@ -107,8 +107,7 @@ public class HomeActivity extends FragmentActivity implements
 
 		// Adding Tabs
 		for (String tab_name : tabs) {
-			actionBar.addTab(actionBar.newTab().setText(tab_name)
-					.setTabListener(this));
+			actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
 		}
 
 		/**
@@ -258,8 +257,10 @@ public class HomeActivity extends FragmentActivity implements
 			double longitude = mLastLocation.getLongitude();
 
 			// lblLocation.setText(latitude + ", " + longitude);
-			Toast.makeText(this, latitude + ", " + longitude, Toast.LENGTH_LONG)
-					.show();
+//			Toast.makeText(this, latitude + ", " + longitude, Toast.LENGTH_LONG)
+//					.show();
+			
+			pref.setCoordinates(Double.toString(latitude), Double.toString(longitude));
 
 		} else {
 			Toast.makeText(

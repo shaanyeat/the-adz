@@ -29,8 +29,7 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_locktheme</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_locktheme</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Locktheme</item>
-        
-        
+		<item name="android:buttonStyle">@style/RobotoButtonStyle</item>
     </style>
 
     <style name="ActionBar.Solid.Locktheme" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
@@ -70,7 +69,11 @@
     <style name="ActionButton.CloseMode.Locktheme" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_locktheme</item>
     </style>
-
+    
+    <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
+    	<item name="android:fontFamily">sans-serif-light</item>
+	</style>
+    
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
     <style name="Theme.Locktheme.Widget" parent="@android:style/Theme.Holo">
         <item name="android:popupMenuStyle">@style/PopupMenu.Locktheme</item>

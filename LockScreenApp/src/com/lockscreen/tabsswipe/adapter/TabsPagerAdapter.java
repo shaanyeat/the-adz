@@ -2,8 +2,8 @@ package com.lockscreen.tabsswipe.adapter;
 
 import com.lockscreen.fragment.CampaignFragment;
 import com.lockscreen.fragment.HomeFragment;
-import com.lockscreen.fragment.RecordsFragment;
-import com.lockscreen.fragment.RankingFragment;
+import com.lockscreen.fragment.RewardsFragment;
+import com.lockscreen.fragment.HistoryFragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,10 +27,10 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 			return new CampaignFragment();
 		case 2:
 			// Records fragment activity
-			return new RecordsFragment();
+			return new RewardsFragment();
 		case 3:
 			// Ranking fragment activity
-			return new RankingFragment();
+			return new HistoryFragment();
 		}
 
 		return null;

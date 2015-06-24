@@ -3,8 +3,12 @@ package com.lockscreen;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,6 +22,7 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -32,7 +37,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.lockscreen.adapter.AdapterOfflineAdz;
 import com.lockscreen.adapter.CampaignItem;
 import com.lockscreen.adapter.DealGalleryAdapter;
 import com.lockscreen.loader.ImageLoader;
@@ -59,11 +66,13 @@ public class LockScreenAppActivity extends Activity {
 	public static ArrayList<String> subImg;
 	public static ArrayList<String> subImgUrl;
 	public static ImageLoader imageLoader;
-	TextView date;
+	TextView date, dayInWeek;
 	DigitalClock dc;
-    SharedPreference pref;
-    private ArrayList<CampaignItem> cItems;
-	
+	SharedPreference pref;
+	private ArrayList<CampaignItem> cItems;
+
+	private static int currentPage;
+
 	public static final String KEY_APIKEY = "apiKey";
 
 	// use to disable the home button
@@ -86,29 +95,62 @@ public class LockScreenAppActivity extends Activity {
 		// | WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(R.layout.main);
-		
+		viewPager = (ViewPager) findViewById(R.id.pager);
+
 		pref = new SharedPreference(LockScreenAppActivity.this);
 
-		// get campaign List
-		new campaingList(LockScreenAppActivity.this).execute((Void[]) null);
+		if (Constant.isNetworkAvailable(LockScreenAppActivity.this)) {
+			// get campaign List
+			new campaingList(LockScreenAppActivity.this).execute((Void[]) null);
+		} else {
+
+			String imgString = pref.getAdzImage().toString().replace("[", "")
+					.replace("]", "");
+
+			List<String> items = Arrays.asList(imgString.split("\\s*,\\s*"));
+
+			ArrayList<String> listOfStrings = new ArrayList<String>(
+					items.size());
+			listOfStrings.addAll(items);
+
+			Log.v(LockScreenAppActivity.class.getSimpleName(),
+					listOfStrings.toString());
+
+			Collections.shuffle(listOfStrings);
+
+			AdapterOfflineAdz adapter = new AdapterOfflineAdz(
+					LockScreenAppActivity.this, listOfStrings);
+
+			viewPager.setAdapter(adapter);
+
+			Toast.makeText(LockScreenAppActivity.this,
+					"No Internet Connection!", Toast.LENGTH_LONG).show();
+		}
 
 		dc = (DigitalClock) findViewById(R.id.digitalClock1);
 		date = (TextView) findViewById(R.id.date);
+		dayInWeek = (TextView) findViewById(R.id.dayInWeek);
 
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		PageListener pageListener = new PageListener();
+		viewPager.setOnPageChangeListener(pageListener);
+
+		DateFormat dateFormat = new SimpleDateFormat("dd");
 		// get current date time with Date()
 		Date currentDate = new Date();
-		date.setText(dateFormat.format(currentDate));
+
+		Calendar now = Calendar.getInstance();
+		dayInWeek.setText(now.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG,
+				Locale.getDefault()));
+		date.setText(now.getDisplayName(Calendar.MONTH, Calendar.LONG,
+				Locale.getDefault()) + " " + dateFormat.format(currentDate)
+
+		);
 
 		imageLoader = new ImageLoader(this);
 
 		cItems = new ArrayList<CampaignItem>();
 		subImg = new ArrayList<String>();
 		subImgUrl = new ArrayList<String>();
-
-		// subImg.add("http://imageswiki.com/wp-content/uploads/2014/11/images-Photoshop-Image-of-the-horse-053857-.jpg");
-		// subImg.add("http://www.hdwallpapersimages.com/wp-content/uploads/2014/01/Winter-Tiger-Wild-Cat-Images.jpg");
-		// subImg.add("http://www.gettyimages.com/CMS/Pages/ImageCollection/StaticContent/image5_170127819.jpg");
 
 		droid = (ImageView) findViewById(R.id.droid);
 
@@ -308,6 +350,7 @@ public class LockScreenAppActivity extends Activity {
 	public void onSlideTouch(View view, MotionEvent event) {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
+
 			break;
 		case MotionEvent.ACTION_MOVE:
 			int x_cord = (int) event.getRawX();
@@ -423,11 +466,14 @@ public class LockScreenAppActivity extends Activity {
 			Integer returnCode = 0;
 			try {
 				RestClient client = new RestClient(Constant.BASEWEBSERVICEURL
-						+ "campaign/list?latitude=3.31766&longitude=101.4839");
+						// +
+						// "campaign/list?latitude=3.31766&longitude=101.4839");
+						+ "campaign/list?latitude=" + pref.getCoordinatesLat()
+						+ "&longitude=" + pref.getCoordinatesLong());
 
 				client.AddHeader("Content-type", "application/json");
 				client.AddHeader("Accept", "application/json");
-//				Log.v("KEY", Constant.currentLoginUser.getApiKey());
+				// Log.v("KEY", Constant.currentLoginUser.getApiKey());
 				Log.v("KEY", pref.getapikey());
 				client.AddHeader("Key", pref.getapikey());
 
@@ -453,22 +499,25 @@ public class LockScreenAppActivity extends Activity {
 						String imgUrl = res.getString("ImageUrl");
 						String linkurl = res.getString("LinkURL");
 
-						 cItems.add(new CampaignItem(id, name, mId, mName,
-						 imgName,imgUrl,linkurl));
+						cItems.add(new CampaignItem(id, name, mId, mName,
+								imgName, imgUrl, linkurl));
 
-//						subImg.add(imgUrl);
-//						subImgUrl.add(linkurl);
+						subImg.add(imgUrl);
+
+						pref.storeAdzImage(subImg);
+
+						// subImgUrl.add(linkurl);
 
 					}
 
 					JSONObject reststatus = json
 							.getJSONObject("ResponseStatus");
 					successcode = reststatus.getString("Success");
-					
+
 					String apiKey = json.getString("Key");
 
 					// Constant.currentLoginUser = new UserDetails();
-//					Constant.currentLoginUser.setApiKey(apiKey);
+					// Constant.currentLoginUser.setApiKey(apiKey);
 					pref.setapikey(apiKey);
 
 				} else {
@@ -492,70 +541,35 @@ public class LockScreenAppActivity extends Activity {
 		protected void onPostExecute(Integer returnCode) {
 			// UI work allowed here
 
-			/*
-			 * if (successcode.equals("1")) {
-			 * 
-			 * try { // Locate the ViewPager in viewpager_main.xml viewPager =
-			 * (ViewPager) findViewById(R.id.pager); // Pass results to
-			 * ViewPagerAdapter Class DealGalleryAdapter adapter = new
-			 * DealGalleryAdapter(LockScreenAppActivity.this, subImg); // Binds
-			 * the Adapter to the ViewPager viewPager.setAdapter(adapter);
-			 * 
-			 * // CirclePageIndicator Indicator = //
-			 * (CirclePageIndicator)findViewById(R.id.indicator); //
-			 * Indicator.bringToFront(); // Indicator.setViewPager(viewPager);
-			 * 
-			 * // if(subImg.size()<=1) // Indicator.setVisibility(View.GONE); }
-			 * catch (Exception e) { // TODO: handle exception
-			 * e.printStackTrace(); }
-			 */
-
 			if (cItems.size() == 0) {
-//				cItems.add("https://dl.dropboxusercontent.com/u/76631556/AppStream/dummylock.png");
-				 cItems.add(new CampaignItem("https://dl.dropboxusercontent.com/u/76631556/AppStream/dummylock.png"));
+				// cItems.add("https://dl.dropboxusercontent.com/u/76631556/AppStream/dummylock.png");
+				cItems.add(new CampaignItem(
+						"https://dl.dropboxusercontent.com/u/76631556/AppStream/dummylock.png"));
 				try {
-					// Locate the ViewPager in viewpager_main.xml
-					viewPager = (ViewPager) findViewById(R.id.pager);
 					// Pass results to ViewPagerAdapter Class
 					DealGalleryAdapter adapter = new DealGalleryAdapter(
 							LockScreenAppActivity.this, cItems, true);
 					// Binds the Adapter to the ViewPager
 					viewPager.setAdapter(adapter);
 
-					// CirclePageIndicator Indicator =
-					// (CirclePageIndicator)findViewById(R.id.indicator);
-					// Indicator.bringToFront();
-					// Indicator.setViewPager(viewPager);
-
-					// if(subImg.size()<=1)
-					// Indicator.setVisibility(View.GONE);
 				} catch (Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
 				}
 			} else if (successcode.equals("1")) {
 				try {
-					// Locate the ViewPager in viewpager_main.xml
-					viewPager = (ViewPager) findViewById(R.id.pager);
 					// Pass results to ViewPagerAdapter Class
-					
+
 					Collections.shuffle(cItems);
-					
+
 					DealGalleryAdapter adapter = new DealGalleryAdapter(
 							LockScreenAppActivity.this, cItems);
-					
-//					DealGalleryAdapter adapter = new DealGalleryAdapter(
-//							LockScreenAppActivity.this, subImg, subImgUrl);
+
+					// DealGalleryAdapter adapter = new DealGalleryAdapter(
+					// LockScreenAppActivity.this, subImg, subImgUrl);
 					// Binds the Adapter to the ViewPager
 					viewPager.setAdapter(adapter);
 
-					// CirclePageIndicator Indicator =
-					// (CirclePageIndicator)findViewById(R.id.indicator);
-					// Indicator.bringToFront();
-					// Indicator.setViewPager(viewPager);
-
-					// if(subImg.size()<=1)
-					// Indicator.setVisibility(View.GONE);
 				} catch (Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
@@ -565,5 +579,12 @@ public class LockScreenAppActivity extends Activity {
 			// dialog.dismiss();
 		}
 
+	}
+
+	private static class PageListener extends SimpleOnPageChangeListener {
+		public void onPageSelected(int position) {
+			Log.i("PAGE", "page selected " + position);
+			currentPage = position;
+		}
 	}
 }

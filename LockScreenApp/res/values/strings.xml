@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, LockScreenAppActivity!</string>
-    <string name="app_name">LockScreenApp</string>
+    <string name="app_name">The Adz</string>
     <string name="unloack">Unlock</string>
     <string name="nowifi">No Wifi</string>
 
@@ -10,11 +10,13 @@
 
     <string name="home">Home</string>
     <string name="previewlockscreen">Preview Lock Screen</string>
-    <string name="registerbtn">Register</string>
-    <string name="login">Login</string>
+    <string name="register"><u>New here? Sign up</u></string>
+    <string name="registerbtn">Create Account</string>
+    <string name="login">Sign in</string>
+    <string name="or">Or</string>
     <string name="firstname">First Name</string>
     <string name="lastname">Last Name</string>
-    <string name="email">Email</string>
+    <string name="email">Email Address</string>
     <string name="password">Password</string>
     <string name="progesschecking">Loading ..\..</string>
     <string name="fillrequired">Fill in all fields</string>
@@ -44,5 +46,22 @@
     <string name="campaignname">Name</string>
     <string name="campaignmerchant">Merchant</string>
     <string name="campaignlink">Link</string>
+    
+    <!-- Redeem -->
+    <string name="redeemmsg1">Please fill in required info to continue.</string>
+    <string name="deliveryAddress">Address Line 1</string>
+    <string name="deliveryAddress2">Address Line 2</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="country">Country</string>
+    <string name="postcode">Postcode</string>
+    <string name="bankname">Bank Name</string>
+    <string name="bankacc">Bank Account Number</string>
+    <string name="banktype">Bank Account Name</string>
+    <string name="btnredeem">Redeeem</string>
+    <string name="identifynumber">Identity Number</string>
+    <string name="mobileoperator">Mobile Operator Id</string>
+    <string name="mobileaccnumber">Mobile Account Number</string>
+    <string name="redeemSuccess">Redeeem Successfully</string>
 
 </resources>

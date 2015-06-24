@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,11 +16,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lockscreen.R;
 import com.lockscreen.adapter.AdapterDetailImage;
+import com.lockscreen.fragment.LoginFragment;
 import com.lockscreen.utility.Constant;
 import com.lockscreen.utility.RestClient;
 import com.lockscreen.utility.SharedPreference;
@@ -35,6 +39,7 @@ public class CampaignDetails extends FragmentActivity {
 	private SharedPreference pref;
 
 	ArrayList<String> allImages;
+	ActionBar actionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,10 @@ public class CampaignDetails extends FragmentActivity {
 		options = new DisplayImageOptions.Builder().cacheInMemory(true)
 				.cacheOnDisk(true).considerExifParams(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
+
+		actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
 		String campaignId = getIntent().getExtras().getString("campaignId");
 
 		campaignImg = (ImageView) findViewById(R.id.campaignImg);
@@ -59,6 +68,17 @@ public class CampaignDetails extends FragmentActivity {
 		new campaingDetails(CampaignDetails.this, campaignId)
 				.execute((Void[]) null);
 
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			CampaignDetails.this.finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	// getCampaignDetails
@@ -94,8 +114,8 @@ public class CampaignDetails extends FragmentActivity {
 				JSONObject campaignCoorandId = new JSONObject();
 
 				campaignCoorandId.put("id", cId);
-				campaignCoorandId.put("latitude", "3.31766");
-				campaignCoorandId.put("longitude", "101.4839");
+				campaignCoorandId.put("latitude", pref.getCoordinatesLat());
+				campaignCoorandId.put("longitude", pref.getCoordinatesLong());
 
 				RestClient client = new RestClient(Constant.BASEWEBSERVICEURL
 						+ "campaign/view");
@@ -119,7 +139,7 @@ public class CampaignDetails extends FragmentActivity {
 
 					id = res.getInt("CampaignId");
 					name = res.getString("Name");
-					refercode = res.getString("ReferenceCode");
+//					refercode = res.getString("ReferenceCode");
 					startdate = res.getString("Start");
 					enddate = res.getString("End");
 					mId = res.getInt("MerchantId");

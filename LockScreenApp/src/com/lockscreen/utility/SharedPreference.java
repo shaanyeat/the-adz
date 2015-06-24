@@ -1,6 +1,10 @@
 package com.lockscreen.utility;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -29,6 +33,8 @@ import com.lockscreen.adapter.UserDetails;
     public static final String KEY_NOTIF = "notif";
     public static final String KEY_IMAGEURL = "imageUrl";
     public static final String KEY_APIKEY = "apiKey";
+    public static final String KEY_LAT = "latitude";
+    public static final String KEY_LONG = "longtitude";
 
     
     
@@ -67,6 +73,20 @@ import com.lockscreen.adapter.UserDetails;
     
     public String getapikey(){
     	return pref.getString(KEY_APIKEY, null);
+    }
+    
+    public void setCoordinates(String latitude, String longtitude){
+    	editor.putString(KEY_LAT, latitude);
+    	editor.putString(KEY_LONG, longtitude);
+    	editor.commit();
+    }
+    
+    public String getCoordinatesLat(){
+    	return pref.getString(KEY_LAT, null);
+    }
+    
+    public String getCoordinatesLong(){
+    	return pref.getString(KEY_LONG, null);
     }
     
     
@@ -109,4 +129,19 @@ import com.lockscreen.adapter.UserDetails;
         editor.clear();
         editor.commit();
     }
+    
+    
+    public void storeAdzImage(ArrayList<String> imgurl){
+    	 Set<String> set = new HashSet<String>();
+		 set.addAll(imgurl);
+		 editor.putStringSet("imgOffline", set);
+		 editor.commit();
+    }
+    
+    
+   public Set<String> getAdzImage(){
+	   Set<String> set = pref.getStringSet("imgOffline", null);
+	   
+	   return set;
+   }
 }

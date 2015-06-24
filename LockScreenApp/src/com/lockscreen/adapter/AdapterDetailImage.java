@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import com.lockscreen.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class AdapterDetailImage extends PagerAdapter {
 	 
@@ -62,7 +64,12 @@ public class AdapterDetailImage extends PagerAdapter {
   
         imgDisplay = (ImageView) itemView.findViewById(R.id.imgDisplay);
         
-        ImageLoader.getInstance().displayImage(_imagePaths.get(position), imgDisplay, options);
+        ImageLoader imageLoader = ImageLoader.getInstance();
+		imageLoader.init(ImageLoaderConfiguration.createDefault(activity));
+		
+		Log.v("IMAGE URL", _imagePaths.get(position));
+        
+		imageLoader.displayImage(_imagePaths.get(position), imgDisplay, options);
 //		imgDisplay.setImageDrawable(getResources().getDrawable(image.get(position));
 //        imgDisplay.setImageResource(_imagePaths.get(position));
         ((ViewPager) container).addView(itemView);

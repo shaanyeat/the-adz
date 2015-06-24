@@ -38,8 +38,8 @@ public class RegisterActivity extends FragmentActivity {
 		
 		pref = new SharedPreference(this);
 
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+//		ActionBar actionBar = getActionBar();
+//		actionBar.setDisplayHomeAsUpEnabled(true);
 
 //		firstName = (EditText) findViewById(R.id.firstName);
 //		lastName = (EditText) findViewById(R.id.lastName);
@@ -63,7 +63,7 @@ public class RegisterActivity extends FragmentActivity {
 		});
 	}
 
-	@Override
+	/*@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
@@ -72,7 +72,7 @@ public class RegisterActivity extends FragmentActivity {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
+	}*/
 
 	// Register
 	private class SignUpTask extends AsyncTask<Void, Void, Integer> {

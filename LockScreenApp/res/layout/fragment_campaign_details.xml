@@ -81,6 +81,8 @@
                 android:id="@+id/campaignLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_toRightOf="@id/campaignLinktxt"
                 android:layout_alignParentRight="true" />
         </RelativeLayout>
     </LinearLayout>

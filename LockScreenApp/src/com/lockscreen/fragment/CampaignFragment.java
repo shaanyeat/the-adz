@@ -20,9 +20,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +41,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class CampaignFragment extends Fragment {
 
-	ListView campaignList;
+	GridView campaignGrid;
 	private ArrayList<CampaignItem> cItems;
 	DisplayImageOptions options;
 	
@@ -60,7 +62,7 @@ public class CampaignFragment extends Fragment {
 
 		cItems = new ArrayList<CampaignItem>();
 
-		campaignList = (ListView) rootView.findViewById(R.id.campaignList);
+		campaignGrid = (GridView) rootView.findViewById(R.id.campaignGrid);
 
 		// get campaign List
 		new campaingList(getActivity()).execute((Void[]) null);
@@ -185,7 +187,7 @@ public class CampaignFragment extends Fragment {
 			if (successcode.equals("1")) {
 				
 				ItemAdapter adapter = new ItemAdapter(getActivity(), cItems);
-				campaignList.setAdapter(adapter);
+				campaignGrid.setAdapter(adapter);
 			}
 
 			dialog.dismiss();
@@ -221,7 +223,7 @@ public class CampaignFragment extends Fragment {
 			public TextView cName;
 			public TextView campaignMerchantName;
 			public ImageView campaignImg;
-			public LinearLayout itemlayout;
+			public RelativeLayout itemlayout;
 
 		}
 
@@ -237,7 +239,7 @@ public class CampaignFragment extends Fragment {
 						parent, false);
 				holder = new ViewHolder();
 
-				holder.itemlayout = (LinearLayout) convertView.findViewById(R.id.itemlayout);
+				holder.itemlayout = (RelativeLayout) convertView.findViewById(R.id.itemlayout);
 				
 				holder.cName = (TextView) convertView
 						.findViewById(R.id.campaignName);
