@@ -1,5 +1,8 @@
 package com.lockscreen;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

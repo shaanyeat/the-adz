@@ -137,166 +137,29 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/forgotPassword"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
                     android:text="@string/forgotpassword"
                     android:textColor="#fff" />
 
                 <TextView
                     android:id="@+id/tvRegister"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
                     android:text="@string/register"
                     android:textColor="#fff" />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/profileLayout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" >
-
-            <com.facebook.widget.ProfilePictureView
-                android:id="@+id/userPic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                facebook:preset_size="large" />
-
-            <LinearLayout
-                android:id="@+id/userDetails"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/userPic"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:background="#fff"
-                android:orientation="vertical" >
-
-                <LinearLayout
-                    android:id="@+id/row1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="100" >
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="35"
-                        android:text="Full Name"
-                        android:textColor="#000" />
-
-                    <TextView
-                        android:id="@+id/userName"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="65"
-                        android:textColor="#000" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/row2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="100" >
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="35"
-                        android:text="Email"
-                        android:textColor="#000" />
-
-                    <TextView
-                        android:id="@+id/userEmail"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="65"
-                        android:textColor="#000" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/row3"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="100" >
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="35"
-                        android:text="Birthday"
-                        android:textColor="#000" />
-
-                    <TextView
-                        android:id="@+id/userBirthday"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="65"
-                        android:text="30/11/1991"
-                        android:textColor="#000" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/row4"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="100" >
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="35"
-                        android:text="Gender"
-                        android:textColor="#000" />
-
-                    <TextView
-                        android:id="@+id/userGender"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="65"
-                        android:textColor="#000" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/row5"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="100" >
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="35"
-                        android:text="Location"
-                        android:textColor="#000" />
-
-                    <TextView
-                        android:id="@+id/userLocation"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="65"
-                        android:textColor="#000" />
-                </LinearLayout>
-            </LinearLayout>
-        </RelativeLayout>
     </LinearLayout>
 
 </ScrollView>

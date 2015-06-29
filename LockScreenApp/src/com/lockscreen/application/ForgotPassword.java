@@ -1,5 +1,8 @@
 package com.lockscreen.application;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 import org.json.JSONObject;
 
 import android.app.ActionBar;
@@ -30,8 +33,8 @@ public class ForgotPassword extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_forgotpassword);
 
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+//		ActionBar actionBar = getActionBar();
+//		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		resetEmail = (EditText) findViewById(R.id.resetEmail);
 		resetBtn = (Button) findViewById(R.id.resetBtn);
@@ -54,7 +57,7 @@ public class ForgotPassword extends FragmentActivity {
 
 	}
 
-	@Override
+/*	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
@@ -63,7 +66,7 @@ public class ForgotPassword extends FragmentActivity {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
+	}*/
 
 	// Login
 	private class resetPassword extends AsyncTask<Void, Void, Integer> {

@@ -2,18 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-        android:background="#fff"
+    android:background="@drawable/sub_bg"
     android:orientation="vertical" >
-    
-    <Button 
+
+    <Button
         android:id="@+id/btnPreview"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="42dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="20dp"
-        android:background="#a0db8e"
-        android:textColor="#000"
-        android:text="@string/previewlockscreen" />
-    
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_style"
+        android:text="@string/previewlockscreen"
+        android:textColor="#fff"
+        android:textSize="18sp" />
 
 </LinearLayout>
-

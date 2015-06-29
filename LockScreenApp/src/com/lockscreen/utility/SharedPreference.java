@@ -1,5 +1,7 @@
 package com.lockscreen.utility;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,7 +13,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.facebook.Session;
-import com.lockscreen.adapter.UserDetails;
+import com.lockscreen.adapter.UserItem;
 
 @SuppressLint("CommitPrefEdits") public class SharedPreference {
 
@@ -30,7 +32,7 @@ import com.lockscreen.adapter.UserDetails;
     public static final String KEY_GENDER = "gender";
     public static final String KEY_DATEOFBIRTH = "dateOfBirth";
     public static final String KEY_PASS = "password";
-    public static final String KEY_NOTIF = "notif";
+    public static final String KEY_STATUS = "status";
     public static final String KEY_IMAGEURL = "imageUrl";
     public static final String KEY_APIKEY = "apiKey";
     public static final String KEY_LAT = "latitude";
@@ -57,7 +59,7 @@ import com.lockscreen.adapter.UserDetails;
     		editor.putInt(KEY_GENDER, Constant.currentLoginUser.getGender());
     		editor.putString(KEY_DATEOFBIRTH, Constant.currentLoginUser.getdateofBirth());
     		editor.putString(KEY_PASS, Constant.currentLoginUser.getpassword());
-    		editor.putString(KEY_NOTIF, Constant.currentLoginUser.getnotification());
+    		editor.putString(KEY_STATUS, Constant.currentLoginUser.getStatus());
     		editor.putString(KEY_IMAGEURL, Constant.currentLoginUser.getimgUrl());
 //    		editor.putString(KEY_APIKEY, Constant.currentLoginUser.getApiKey());
     	}
@@ -98,7 +100,7 @@ import com.lockscreen.adapter.UserDetails;
 
     public void getUserDetails(){
     	
-    	Constant.currentLoginUser = new UserDetails();
+    	Constant.currentLoginUser = new UserItem();
     	Constant.currentLoginUser.setUserId(pref.getInt(KEY_USERID, 0));
     	Constant.currentLoginUser.setFirstName(pref.getString(KEY_FIRSTNAME, null));
     	Constant.currentLoginUser.setLastName(pref.getString(KEY_LASTNAME, null));
@@ -106,7 +108,7 @@ import com.lockscreen.adapter.UserDetails;
 		Constant.currentLoginUser.setGender(pref.getInt(KEY_GENDER, 0));
 		Constant.currentLoginUser.setdateofBirth(pref.getString(KEY_DATEOFBIRTH, null));
 		Constant.currentLoginUser.setpassword(pref.getString(KEY_PASS, null));
-		Constant.currentLoginUser.setnotification(pref.getString(KEY_NOTIF, null));
+		Constant.currentLoginUser.setStatus(pref.getString(KEY_STATUS, null));
 		Constant.currentLoginUser.setimgUrl(pref.getString(KEY_IMAGEURL, null));
 //		Constant.currentLoginUser.setApiKey(pref.getString(KEY_APIKEY, null));
     }

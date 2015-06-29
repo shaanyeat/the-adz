@@ -1,5 +1,8 @@
 package com.lockscreen.adapter;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 public class HistoryItem {
 
 	public Integer redemtionId;

@@ -1,5 +1,8 @@
 package com.lockscreen.application;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 import java.util.ArrayList;
 
 import org.json.JSONArray;

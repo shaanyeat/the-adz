@@ -23,7 +23,7 @@
     <string name="regsuccess">Success register as member</string>
     <string name="forgotpassword">Forgot Password?</string>
     <string name="enteremailtoreset">Enter email to reset password : </string>
-    <string name="reset">Reset</string>
+    <string name="reset">Reset Password</string>
     <string name="resetpasswordmailsend">An email been send to your email. Please follow the step to reset the password.</string>
 
     <!-- Facebook -->
@@ -40,7 +40,7 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
     <string name="action_account">Accounts</string>
-    <string name="action_logout">Logout</string>
+    <string name="action_logout"><u>Logout</u></string>
 
     <!-- Campaign Details -->
     <string name="campaignname">Name</string>
@@ -63,5 +63,13 @@
     <string name="mobileoperator">Mobile Operator Id</string>
     <string name="mobileaccnumber">Mobile Account Number</string>
     <string name="redeemSuccess">Redeeem Successfully</string>
+    
+    <!-- User Details -->
+    <string name="btnfriends">Invite Friends and Earn More</string>
+    <string name="btninterest">My Interests</string>
+    
+    <!-- Input Dialog -->
+    <string name="referraltitle">Referral Code</string>
+    <string name="referraloptional">Referral Code (Optional)</string>
 
 </resources>

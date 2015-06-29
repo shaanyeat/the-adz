@@ -1,5 +1,8 @@
 package com.lockscreen.application;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;

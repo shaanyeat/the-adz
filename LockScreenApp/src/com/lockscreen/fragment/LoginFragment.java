@@ -1,12 +1,17 @@
 package com.lockscreen.fragment;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 import java.util.Arrays;
 
 import org.json.JSONObject;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -15,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,9 +40,10 @@ import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.facebook.widget.ProfilePictureView;
 import com.lockscreen.R;
-import com.lockscreen.adapter.UserDetails;
+import com.lockscreen.adapter.UserItem;
 import com.lockscreen.application.ForgotPassword;
 import com.lockscreen.application.HomeActivity;
+import com.lockscreen.application.MainActivity;
 import com.lockscreen.application.RegisterActivity;
 import com.lockscreen.utility.Constant;
 import com.lockscreen.utility.RestClient;
@@ -44,13 +51,12 @@ import com.lockscreen.utility.SharedPreference;
 
 public class LoginFragment extends FragmentActivity {
 
-	TextView userName, userEmail, userGender, userLocation, forgotPassword, tvRegister;
-	ProfilePictureView userPic;
-	RelativeLayout profileLayout;
+	TextView forgotPassword, tvRegister;
 	Button btnLogin;
 	EditText username, password;
 	LinearLayout normalLoginLayout;
 	LoginButton authButton;
+	String referralCode = null;
 
 	public static final String PREFS_NAME = "LOGIN";
 	private SharedPreference pref;
@@ -91,19 +97,20 @@ public class LoginFragment extends FragmentActivity {
 		// authButton.setFragment(this);
 		authButton.setReadPermissions(Arrays.asList("email", "user_location"));
 
-		userName = (TextView) findViewById(R.id.userName);
+/*		userName = (TextView) findViewById(R.id.userName);
 		userPic = (ProfilePictureView) findViewById(R.id.userPic);
 		userPic.setCropped(true);
 		userEmail = (TextView) findViewById(R.id.userEmail);
 		userGender = (TextView) findViewById(R.id.userGender);
 		userLocation = (TextView) findViewById(R.id.userLocation);
-		profileLayout = (RelativeLayout) findViewById(R.id.profileLayout);
+		profileLayout = (RelativeLayout) findViewById(R.id.profileLayout);*/
 		tvRegister = (TextView) findViewById(R.id.tvRegister);
 		username = (EditText) findViewById(R.id.username);
 		password = (EditText) findViewById(R.id.password);
 		btnLogin = (Button) findViewById(R.id.btnLogin);
 		forgotPassword = (TextView) findViewById(R.id.forgotPassword);
 		normalLoginLayout = (LinearLayout) findViewById(R.id.normalLoginLayout);
+
 
 		tvRegister.setOnClickListener(new OnClickListener() {
 			@Override
@@ -140,7 +147,7 @@ public class LoginFragment extends FragmentActivity {
 
 		// Check for login status
 
-		if (pref.GetLogin()) {
+		/*if (pref.GetLogin()) {
 
 			try {
 				normalLoginLayout.setVisibility(View.GONE);
@@ -156,7 +163,7 @@ public class LoginFragment extends FragmentActivity {
 			} catch (Exception e) {
 
 			}
-		}
+		}*/
 
 	}
 
@@ -222,25 +229,17 @@ public class LoginFragment extends FragmentActivity {
 			makeMeRequest(session);
 			// get Access token and pass to server
 			Log.v("Access Token", session.getAccessToken());
-			Constant.currentLoginUser = new UserDetails();
+			Constant.currentLoginUser = new UserItem();
 			Constant.currentLoginUser.setToken(session.getAccessToken());
 			
-			if (check) {
-			new SignInFacebook(LoginFragment.this).execute((Void[]) null);
-			check = false;
+			if (!pref.GetLogin()) {
+				showInputDialog();	
+				check = false;
 			}
-
-			profileLayout.setVisibility(View.VISIBLE);
-			normalLoginLayout.setVisibility(View.GONE);
-			authButton.setVisibility(View.GONE);
-//			actionBar.setDisplayHomeAsUpEnabled(true);
 			pref.isFacebookLogin(true);
 
 		} else if (state.isClosed()) {
 			Log.i(TAG, "Logged out...");
-			profileLayout.setVisibility(View.INVISIBLE);
-			normalLoginLayout.setVisibility(View.VISIBLE);
-//			actionBar.setDisplayHomeAsUpEnabled(false);
 			pref.isFacebookLogin(false);
 		}
 	}
@@ -259,7 +258,7 @@ public class LoginFragment extends FragmentActivity {
 								// Set the id for the ProfilePictureView
 								// view that in turn displays the profile
 								// picture.
-								userPic.setProfileId(user.getId());
+/*								userPic.setProfileId(user.getId());
 
 								// Set the Textview's text to the user's name.
 								userName.setText(user.getName());
@@ -276,7 +275,7 @@ public class LoginFragment extends FragmentActivity {
 								userLocation.setText(user.getLocation()
 										.getProperty("name").toString());
 								// userLocation.setText(user.getLocation().toString());
-
+*/
 							}
 						}
 						if (response.getError() != null) {
@@ -285,6 +284,39 @@ public class LoginFragment extends FragmentActivity {
 					}
 				});
 		request.executeAsync();
+	}
+	
+	
+	private void showInputDialog() {
+
+		// get prompts.xml view
+		LayoutInflater layoutInflater = LayoutInflater.from(LoginFragment.this);
+		View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginFragment.this);
+		alertDialogBuilder.setView(promptView);
+
+		final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+		// setup a dialog window
+		alertDialogBuilder.setCancelable(false)
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						referralCode = editText.getText().toString();
+						
+						new SignInFacebook(LoginFragment.this).execute((Void[]) null);
+					}
+				})
+				.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+								
+								new SignInFacebook(LoginFragment.this).execute((Void[]) null);
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
 	}
 
 	// Login
@@ -344,6 +376,16 @@ public class LoginFragment extends FragmentActivity {
 
 					JSONObject result = json.getJSONObject("Result");
 
+/*					Integer userid = result.getInt("UserId");
+					String fname = result.getString("FirstName");
+					String lname = result.getString("LastName");
+					String email = result.getString("Email");
+					Integer gender = result.getInt("Gender");
+					String birthday = result.getString("DateOfBirth");
+					String status = result.getString("UserStatus");
+					String img = result.getString("ImageUrl");
+					Integer point = result.getInt("PointBalance");*/
+					
 					Integer userid = result.getInt("UserId");
 					String fname = result.getString("FirstName");
 					String lname = result.getString("LastName");
@@ -351,18 +393,8 @@ public class LoginFragment extends FragmentActivity {
 					Integer gender = result.getInt("Gender");
 					String birthday = result.getString("DateOfBirth");
 					String status = result.getString("UserStatus");
-					// String notification = result.getString("Notif");
 					String img = result.getString("ImageUrl");
-//					String apikey = result.getString("ApiKey");
-
-					
-					
-//					Constant.currentLoginUser = new UserDetails(userid, fname,
-//							lname, email, gender, birthday, status, img);
-
-					// Constant.currentLoginUser.setFirstName(fname);
-					// Constant.currentLoginUser.setLastName(lname);
-					// Constant.currentLoginUser.setEmail(email);
+					Integer point = result.getInt("PointBalance");
 
 					JSONObject reststatus = json
 							.getJSONObject("ResponseStatus");
@@ -370,8 +402,8 @@ public class LoginFragment extends FragmentActivity {
 					
 					String apikey = json.getString("Key");
 					
-					Constant.currentLoginUser = new UserDetails(userid, fname,
-							lname, email, gender, birthday, status, img, apikey);
+					Constant.currentLoginUser = new UserItem(userid, fname,
+							lname, email, gender, birthday, status, img, point);
 					
 					pref.setapikey(apikey);
 					
@@ -401,7 +433,7 @@ public class LoginFragment extends FragmentActivity {
 
 			if (successcode.equals("1")) {
 				pref.isLogin(true);
-				normalLoginLayout.setVisibility(View.GONE);
+/*				normalLoginLayout.setVisibility(View.GONE);
 				authButton.setVisibility(View.GONE);
 				profileLayout.setVisibility(View.VISIBLE);
 
@@ -410,14 +442,15 @@ public class LoginFragment extends FragmentActivity {
 						+ " "
 						+ Constant.currentLoginUser.getLastName().toString());
 				userEmail.setText(Constant.currentLoginUser.getEmail()
-						.toString());
+						.toString());*/
 
 				SharedPreferences.Editor editor = getSharedPreferences(
 						PREFS_NAME, MODE_PRIVATE).edit();
 				editor.putBoolean("loginStatus", true);
 				editor.commit();
+				
+				LoginFragment.this.finish();
 
-				actionBar.setDisplayHomeAsUpEnabled(true);
 			} else {
 				Toast.makeText(LoginFragment.this, errormsg, Toast.LENGTH_LONG)
 						.show();
@@ -452,8 +485,7 @@ public class LoginFragment extends FragmentActivity {
 			try {
 				JSONObject loginUser = new JSONObject();
 
-				loginUser.put("AccessToken",
-						Constant.currentLoginUser.getToken());
+				loginUser.put("AccessToken", Constant.currentLoginUser.getToken());
 				JSONObject devInfo = new JSONObject();
 				/*
 				 * Field[] fields = Build.VERSION_CODES.class.getFields(); for
@@ -466,6 +498,8 @@ public class LoginFragment extends FragmentActivity {
 				devInfo.put("UniqueId", telephonyManager.getDeviceId());
 
 				loginUser.put("DeviceInfo", devInfo);
+				
+				loginUser.put("ReferralCode", referralCode);
 
 				RestClient client = new RestClient(Constant.BASEWEBSERVICEURL
 						+ "user/loginfb");
@@ -490,15 +524,8 @@ public class LoginFragment extends FragmentActivity {
 					Integer gender = result.getInt("Gender");
 					String birthday = result.getString("DateOfBirth");
 					String status = result.getString("UserStatus");
-					// String notification = result.getString("Notif");
 					String img = result.getString("ImageUrl");
-					
-
-					
-
-					// Constant.currentLoginUser.setFirstName(fname);
-					// Constant.currentLoginUser.setLastName(lname);
-					// Constant.currentLoginUser.setEmail(email);
+					Integer point = result.getInt("PointBalance");
 
 					JSONObject reststatus = json
 							.getJSONObject("ResponseStatus");
@@ -506,8 +533,8 @@ public class LoginFragment extends FragmentActivity {
 					
 					String apikey = json.getString("Key");
 
-					Constant.currentLoginUser = new UserDetails(userid, fname,
-							lname, email, gender, birthday, status, img, apikey);
+					Constant.currentLoginUser = new UserItem(userid, fname,
+							lname, email, gender, birthday, status, img, point);
 					
 					pref.setapikey(apikey);
 					
@@ -544,14 +571,17 @@ public class LoginFragment extends FragmentActivity {
 						+ " "
 						+ Constant.currentLoginUser.getLastName().toString());
 				userEmail.setText(Constant.currentLoginUser.getEmail()
-						.toString());
+						.toString());*/
 
 				SharedPreferences.Editor editor = getSharedPreferences(
 						PREFS_NAME, MODE_PRIVATE).edit();
 				editor.putBoolean("loginStatus", true);
 				editor.commit();
-
-				actionBar.setDisplayHomeAsUpEnabled(true);*/
+				
+				
+				Intent intent = new Intent(LoginFragment.this, HomeActivity.class);
+				startActivity(intent);
+				LoginFragment.this.finish();
 			} else {
 				Toast.makeText(LoginFragment.this, errormsg, Toast.LENGTH_LONG)
 						.show();

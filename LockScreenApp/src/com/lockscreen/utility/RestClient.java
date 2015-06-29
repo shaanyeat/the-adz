@@ -1,5 +1,7 @@
 package com.lockscreen.utility;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
 
 import java.io.BufferedReader;
 import java.io.IOException;

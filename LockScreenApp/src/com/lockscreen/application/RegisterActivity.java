@@ -1,5 +1,8 @@
 package com.lockscreen.application;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 import org.json.JSONObject;
 
 import android.app.ActionBar;
@@ -19,15 +22,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.lockscreen.R;
-import com.lockscreen.adapter.UserDetails;
+import com.lockscreen.adapter.UserItem;
 import com.lockscreen.utility.Constant;
 import com.lockscreen.utility.RestClient;
 import com.lockscreen.utility.SharedPreference;
 
 public class RegisterActivity extends FragmentActivity {
 
-//	EditText firstName, lastName;
-	EditText email, password;
+	EditText firstName, lastName, email, password, referralCode;
 	Button btnRegister;
 	private SharedPreference pref;
 
@@ -41,17 +43,20 @@ public class RegisterActivity extends FragmentActivity {
 //		ActionBar actionBar = getActionBar();
 //		actionBar.setDisplayHomeAsUpEnabled(true);
 
-//		firstName = (EditText) findViewById(R.id.firstName);
-//		lastName = (EditText) findViewById(R.id.lastName);
+		firstName = (EditText) findViewById(R.id.firstName);
+		lastName = (EditText) findViewById(R.id.lastName);
 		email = (EditText) findViewById(R.id.email);
 		password = (EditText) findViewById(R.id.password);
+		referralCode = (EditText) findViewById(R.id.referralCode);
 		btnRegister = (Button) findViewById(R.id.btnRegister);
 
 		btnRegister.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (!email.getText().toString().equals("")
+				if (!firstName.getText().toString().equals("")
+						&& !lastName.getText().toString().equals("")
+						&& !email.getText().toString().equals("")
 						&& !password.getText().toString().equals("")) {
 					new SignUpTask(RegisterActivity.this)
 							.execute((Void[]) null);
@@ -98,10 +103,11 @@ public class RegisterActivity extends FragmentActivity {
 			try {
 				JSONObject newUser = new JSONObject();
 
-				newUser.put("FirstName", "");
-				newUser.put("LastName", "");
+				newUser.put("FirstName", firstName.getText().toString());
+				newUser.put("LastName", lastName.getText().toString());
 				newUser.put("Email", email.getText().toString());
 				newUser.put("Password", password.getText().toString());
+				newUser.put("ReferralCode", referralCode.getText().toString());
 
 				JSONObject devInfo = new JSONObject();
 				/*
@@ -113,13 +119,7 @@ public class RegisterActivity extends FragmentActivity {
 				devInfo.put("Model", Build.MODEL);
 				TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 				devInfo.put("UniqueId", telephonyManager.getDeviceId());
-				
-//				devInfo.put("UniqueId", Secure.getString(context.getContentResolver(), Secure.ANDROID_ID));
-				
-
 				newUser.put("DeviceInfo", devInfo);
-				
-				
 
 				RestClient client = new RestClient(Constant.BASEWEBSERVICEURL
 						+ "user/signup");
@@ -144,9 +144,8 @@ public class RegisterActivity extends FragmentActivity {
 					Integer gender = result.getInt("Gender");
 					String birthday = result.getString("DateOfBirth");
 					String status = result.getString("UserStatus");
-//					String notification = result.getString("Notif");
 					String img = result.getString("ImageUrl");
-					
+					Integer point = result.getInt("PointBalance");
 
 					
 					
@@ -155,8 +154,8 @@ public class RegisterActivity extends FragmentActivity {
 					
 					String apikey = json.getString("Key");
 					
-					Constant.currentLoginUser = new UserDetails(userid, fname, lname, email, gender,
-							birthday, status, img, apikey);
+					Constant.currentLoginUser = new UserItem(userid, fname, lname, email, gender,
+							birthday, status, img, point);
 
 				} else {
 					

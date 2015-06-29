@@ -1,5 +1,8 @@
 package com.lockscreen.tabsswipe.adapter;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 import com.lockscreen.fragment.CampaignFragment;
 import com.lockscreen.fragment.HomeFragment;
 import com.lockscreen.fragment.RewardsFragment;

@@ -1,11 +1,15 @@
 package com.lockscreen.application;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,6 +18,9 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -28,6 +35,7 @@ import com.lockscreen.LockScreenAppActivity;
 import com.lockscreen.R;
 import com.lockscreen.fragment.LoginFragment;
 import com.lockscreen.tabsswipe.adapter.TabsPagerAdapter;
+import com.lockscreen.utility.Constant;
 import com.lockscreen.utility.SharedPreference;
 
 public class HomeActivity extends FragmentActivity implements
@@ -40,6 +48,8 @@ public class HomeActivity extends FragmentActivity implements
 	private SharedPreference pref;
 	// Tab titles
 	private String[] tabs = { "Home", "Campaign", "Rewards", "History" };
+	private int[] tabsIcon = { R.drawable.home, R.drawable.campaign,
+			R.drawable.records, R.drawable.ranking };
 
 	private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
 	// Location updates intervals in sec
@@ -105,9 +115,15 @@ public class HomeActivity extends FragmentActivity implements
 		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+		actionBar.setIcon(R.drawable.logo_white);
+
+		// ActionBar.Tab tab = this.actionBar.newTab ();
+		// tab.setCustomView(R.layout.tab_layout);
+
 		// Adding Tabs
-		for (String tab_name : tabs) {
-			actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
+		for (Integer tab_name : tabsIcon) {
+			actionBar.addTab(actionBar.newTab().setIcon(tab_name)
+					.setTabListener(this));
 		}
 
 		/**
@@ -135,29 +151,46 @@ public class HomeActivity extends FragmentActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		getMenuInflater().inflate(R.menu.global, menu);// Menu Resource, Menu
+		// getMenuInflater().inflate(R.menu.global, menu);// Menu Resource, Menu
 
-		MenuItem logOut = (MenuItem) menu.findItem(R.id.action_logout);
-		if (!pref.GetLogin()) {
-			logOut.setVisible(false);
-		} else {
-			logOut.setVisible(true);
+		TextView tv = new TextView(this);
+		if(pref.GetLogin()){
+			tv.setText(Constant.currentLoginUser.getFirstName());
 		}
+		tv.setTextColor(getResources().getColor(R.color.white));
+		tv.setPadding(40, 10, 40, 10);
+		tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_button_style));
+		tv.setTypeface(null, Typeface.BOLD);
+		tv.setTextSize(18);
+		menu.add(0, 0, 1, R.string.navigation_drawer_open).setActionView(tv)
+				.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		tv.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+				startActivity(intent);
+				HomeActivity.this.finish();
+			}
+		});
+
+		/*
+		 * MenuItem logOut = (MenuItem) menu.findItem(R.id.action_logout); if
+		 * (!pref.GetLogin()) { logOut.setVisible(false); } else {
+		 * logOut.setVisible(true); }
+		 */
 		return true;
 	}
 
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-		MenuItem logOut = (MenuItem) menu.findItem(R.id.action_logout);
-		if (!pref.GetLogin()) {
-			logOut.setVisible(false);
-		} else {
-			logOut.setVisible(true);
-		}
-		return true;
-	}
-
+	/*
+	 * @Override public boolean onPrepareOptionsMenu(Menu menu) {
+	 * super.onPrepareOptionsMenu(menu); MenuItem logOut = (MenuItem)
+	 * menu.findItem(R.id.action_logout); if (!pref.GetLogin()) {
+	 * logOut.setVisible(false); } else { logOut.setVisible(true); } return
+	 * true; }
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -257,10 +290,12 @@ public class HomeActivity extends FragmentActivity implements
 			double longitude = mLastLocation.getLongitude();
 
 			// lblLocation.setText(latitude + ", " + longitude);
-//			Toast.makeText(this, latitude + ", " + longitude, Toast.LENGTH_LONG)
-//					.show();
-			
-			pref.setCoordinates(Double.toString(latitude), Double.toString(longitude));
+			// Toast.makeText(this, latitude + ", " + longitude,
+			// Toast.LENGTH_LONG)
+			// .show();
+
+			pref.setCoordinates(Double.toString(latitude),
+					Double.toString(longitude));
 
 		} else {
 			Toast.makeText(
@@ -338,7 +373,7 @@ public class HomeActivity extends FragmentActivity implements
 
 		// Once connected with google api, get the location
 		displayLocation();
-		
+
 		if (mRequestingLocationUpdates) {
 			startLocationUpdates();
 		}

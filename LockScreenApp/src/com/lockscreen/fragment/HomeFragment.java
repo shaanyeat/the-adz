@@ -1,5 +1,8 @@
 package com.lockscreen.fragment;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

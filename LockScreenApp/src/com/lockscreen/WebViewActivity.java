@@ -1,5 +1,8 @@
 package com.lockscreen;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;

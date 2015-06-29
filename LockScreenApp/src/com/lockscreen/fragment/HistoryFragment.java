@@ -1,5 +1,8 @@
 package com.lockscreen.fragment;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -95,7 +98,7 @@ public class HistoryFragment extends Fragment {
 					client.Execute(RestClient.GET);
 
 					String response = client.getResponse();
-					Log.v("Rewards_List", response);
+					Log.v("History_List", response);
 					// Create JSON Object
 					JSONObject json = new JSONObject(response);
 					if (!json.isNull("Result")) {

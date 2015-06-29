@@ -1,5 +1,8 @@
 package com.lockscreen.application;
 
+/*Developer: TAI ZHEN KAI
+Project 2015*/
+
 import org.json.JSONObject;
 
 import android.app.ActionBar;
