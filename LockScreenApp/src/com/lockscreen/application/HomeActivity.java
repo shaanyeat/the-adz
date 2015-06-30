@@ -1,7 +1,7 @@
 package com.lockscreen.application;
 
 /*Developer: TAI ZHEN KAI
-Project 2015*/
+ Project 2015*/
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -9,6 +9,9 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
@@ -71,28 +74,61 @@ public class HomeActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_main);
 
 		pref = new SharedPreference(this);
+		
+		PackageManager manager = HomeActivity.this.getPackageManager();
+		try {
+			PackageInfo info = manager.getPackageInfo(
+					HomeActivity.this.getPackageName(), 0);
+			String version = info.versionName;
+			Log.v("Application Version", version);
+//			Log.v("SharePreference Version", pref.getAppVersion());
+			
+			if(pref.getAppVersion() == null){
+				pref.setAppVersion(version);
+			}else if(!pref.getAppVersion().equals(version)){
+				Log.v("SharePreference Version", pref.getAppVersion().toString());
+				//logout and clear all the sharePreference
+				pref.logoutUser();
+			}
+			
+			
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	
+		
+		
+
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
 		// get login user details
 		if (pref.GetLogin()) {
 			pref.getUserDetails();
 		} else {
-			Intent i = new Intent(HomeActivity.this, LoginFragment.class);
-			startActivity(i);
-			HomeActivity.this.finish();
-		}
 
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
+			if (!prefs.getBoolean("firsttime", true)) {
+				Intent i = new Intent(HomeActivity.this, LoginFragment.class);
+				startActivity(i);
+				HomeActivity.this.finish();
+			}
+
+		}
 
 		// RUN THE LOCK SCREEN ONE TIMES ONLY ONCE THE APP INSTALLED
 		if (prefs.getBoolean("firsttime", true)) {
+			// set firsttime pref to false
+			Editor editor = prefs.edit();
+			editor.clear();
+			editor.putBoolean("firsttime", false);
+			editor.commit();
+			
 			Intent intent = new Intent(HomeActivity.this,
 					LockScreenAppActivity.class);
 			startActivity(intent);
-
-			// set firsttime pref to false
-			Editor editor = prefs.edit();
-			editor.putBoolean("firsttime", false);
-			editor.commit();
+			HomeActivity.this.finish();
 		}
 
 		// First we need to check availability of play services
@@ -154,12 +190,13 @@ public class HomeActivity extends FragmentActivity implements
 		// getMenuInflater().inflate(R.menu.global, menu);// Menu Resource, Menu
 
 		TextView tv = new TextView(this);
-		if(pref.GetLogin()){
+		if (pref.GetLogin()) {
 			tv.setText(Constant.currentLoginUser.getFirstName());
 		}
 		tv.setTextColor(getResources().getColor(R.color.white));
 		tv.setPadding(40, 10, 40, 10);
-		tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_button_style));
+		tv.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.actionbar_button_style));
 		tv.setTypeface(null, Typeface.BOLD);
 		tv.setTextSize(18);
 		menu.add(0, 0, 1, R.string.navigation_drawer_open).setActionView(tv)
@@ -170,7 +207,8 @@ public class HomeActivity extends FragmentActivity implements
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+				Intent intent = new Intent(HomeActivity.this,
+						ProfileActivity.class);
 				startActivity(intent);
 				HomeActivity.this.finish();
 			}
@@ -355,7 +393,11 @@ public class HomeActivity extends FragmentActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		stopLocationUpdates();
+		try {
+			stopLocationUpdates();
+		} catch (Exception e) {
+
+		}
 	}
 
 	/**

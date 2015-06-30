@@ -1,7 +1,7 @@
 package com.lockscreen.fragment;
 
 /*Developer: TAI ZHEN KAI
-Project 2015*/
+ Project 2015*/
 
 import java.util.Arrays;
 
@@ -85,32 +85,31 @@ public class LoginFragment extends FragmentActivity {
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 
-	/*	actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		if (!pref.GetLogin()) {
-			actionBar.setDisplayHomeAsUpEnabled(false);
-		} else {
-			actionBar.setDisplayHomeAsUpEnabled(true);
-		}
-*/
+		/*
+		 * actionBar = getActionBar();
+		 * actionBar.setDisplayHomeAsUpEnabled(true); if (!pref.GetLogin()) {
+		 * actionBar.setDisplayHomeAsUpEnabled(false); } else {
+		 * actionBar.setDisplayHomeAsUpEnabled(true); }
+		 */
 		authButton = (LoginButton) findViewById(R.id.authButton);
 		// authButton.setFragment(this);
 		authButton.setReadPermissions(Arrays.asList("email", "user_location"));
 
-/*		userName = (TextView) findViewById(R.id.userName);
-		userPic = (ProfilePictureView) findViewById(R.id.userPic);
-		userPic.setCropped(true);
-		userEmail = (TextView) findViewById(R.id.userEmail);
-		userGender = (TextView) findViewById(R.id.userGender);
-		userLocation = (TextView) findViewById(R.id.userLocation);
-		profileLayout = (RelativeLayout) findViewById(R.id.profileLayout);*/
+		/*
+		 * userName = (TextView) findViewById(R.id.userName); userPic =
+		 * (ProfilePictureView) findViewById(R.id.userPic);
+		 * userPic.setCropped(true); userEmail = (TextView)
+		 * findViewById(R.id.userEmail); userGender = (TextView)
+		 * findViewById(R.id.userGender); userLocation = (TextView)
+		 * findViewById(R.id.userLocation); profileLayout = (RelativeLayout)
+		 * findViewById(R.id.profileLayout);
+		 */
 		tvRegister = (TextView) findViewById(R.id.tvRegister);
 		username = (EditText) findViewById(R.id.username);
 		password = (EditText) findViewById(R.id.password);
 		btnLogin = (Button) findViewById(R.id.btnLogin);
 		forgotPassword = (TextView) findViewById(R.id.forgotPassword);
 		normalLoginLayout = (LinearLayout) findViewById(R.id.normalLoginLayout);
-
 
 		tvRegister.setOnClickListener(new OnClickListener() {
 			@Override
@@ -128,7 +127,8 @@ public class LoginFragment extends FragmentActivity {
 				// TODO Auto-generated method stub
 				if (!username.getText().toString().equals("")
 						&& !password.getText().toString().equals("")) {
-					new SignInTask(LoginFragment.this).execute((Void[]) null);
+//					new SignInTask(LoginFragment.this).execute((Void[]) null);
+					showNormalLoginInputDialog() ;
 				} else {
 					Toast.makeText(LoginFragment.this, R.string.fillrequired,
 							Toast.LENGTH_LONG).show();
@@ -147,23 +147,20 @@ public class LoginFragment extends FragmentActivity {
 
 		// Check for login status
 
-		/*if (pref.GetLogin()) {
-
-			try {
-				normalLoginLayout.setVisibility(View.GONE);
-				authButton.setVisibility(View.GONE);
-				profileLayout.setVisibility(View.VISIBLE);
-
-				userName.setText(Constant.currentLoginUser.getFirstName()
-						.toString()
-						+ " "
-						+ Constant.currentLoginUser.getLastName().toString());
-				userEmail.setText(Constant.currentLoginUser.getEmail()
-						.toString());
-			} catch (Exception e) {
-
-			}
-		}*/
+		/*
+		 * if (pref.GetLogin()) {
+		 * 
+		 * try { normalLoginLayout.setVisibility(View.GONE);
+		 * authButton.setVisibility(View.GONE);
+		 * profileLayout.setVisibility(View.VISIBLE);
+		 * 
+		 * userName.setText(Constant.currentLoginUser.getFirstName() .toString()
+		 * + " " + Constant.currentLoginUser.getLastName().toString());
+		 * userEmail.setText(Constant.currentLoginUser.getEmail() .toString());
+		 * } catch (Exception e) {
+		 * 
+		 * } }
+		 */
 
 	}
 
@@ -231,9 +228,9 @@ public class LoginFragment extends FragmentActivity {
 			Log.v("Access Token", session.getAccessToken());
 			Constant.currentLoginUser = new UserItem();
 			Constant.currentLoginUser.setToken(session.getAccessToken());
-			
+
 			if (!pref.GetLogin()) {
-				showInputDialog();	
+				showInputDialog();
 				check = false;
 			}
 			pref.isFacebookLogin(true);
@@ -258,24 +255,26 @@ public class LoginFragment extends FragmentActivity {
 								// Set the id for the ProfilePictureView
 								// view that in turn displays the profile
 								// picture.
-/*								userPic.setProfileId(user.getId());
-
-								// Set the Textview's text to the user's name.
-								userName.setText(user.getName());
-
-								// set the username
-								userEmail.setText(user.getProperty("email")
-										.toString());
-
-								// set the gender
-								userGender.setText(user.getProperty("gender")
-										.toString());
-
-								// set the location
-								userLocation.setText(user.getLocation()
-										.getProperty("name").toString());
-								// userLocation.setText(user.getLocation().toString());
-*/
+								/*
+								 * userPic.setProfileId(user.getId());
+								 * 
+								 * // Set the Textview's text to the user's
+								 * name. userName.setText(user.getName());
+								 * 
+								 * // set the username
+								 * userEmail.setText(user.getProperty("email")
+								 * .toString());
+								 * 
+								 * // set the gender
+								 * userGender.setText(user.getProperty("gender")
+								 * .toString());
+								 * 
+								 * // set the location
+								 * userLocation.setText(user.getLocation()
+								 * .getProperty("name").toString()); //
+								 * userLocation
+								 * .setText(user.getLocation().toString());
+								 */
 							}
 						}
 						if (response.getError() != null) {
@@ -285,32 +284,73 @@ public class LoginFragment extends FragmentActivity {
 				});
 		request.executeAsync();
 	}
-	
-	
-	private void showInputDialog() {
+
+	private void showNormalLoginInputDialog() {
 
 		// get prompts.xml view
 		LayoutInflater layoutInflater = LayoutInflater.from(LoginFragment.this);
 		View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginFragment.this);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				LoginFragment.this);
 		alertDialogBuilder.setView(promptView);
 
-		final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+		final EditText editText = (EditText) promptView
+				.findViewById(R.id.edittext);
 		// setup a dialog window
-		alertDialogBuilder.setCancelable(false)
+		alertDialogBuilder
+				.setCancelable(false)
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						referralCode = editText.getText().toString();
-						
-						new SignInFacebook(LoginFragment.this).execute((Void[]) null);
+
+						new SignInTask(LoginFragment.this)
+								.execute((Void[]) null);
 					}
 				})
 				.setNegativeButton("Cancel",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.cancel();
-								
-								new SignInFacebook(LoginFragment.this).execute((Void[]) null);
+
+								new SignInTask(LoginFragment.this)
+										.execute((Void[]) null);
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+	}
+
+	private void showInputDialog() {
+
+		// get prompts.xml view
+		LayoutInflater layoutInflater = LayoutInflater.from(LoginFragment.this);
+		View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				LoginFragment.this);
+		alertDialogBuilder.setView(promptView);
+
+		final EditText editText = (EditText) promptView
+				.findViewById(R.id.edittext);
+		// setup a dialog window
+		alertDialogBuilder
+				.setCancelable(false)
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						referralCode = editText.getText().toString();
+
+						new SignInFacebook(LoginFragment.this)
+								.execute((Void[]) null);
+					}
+				})
+				.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+
+								new SignInFacebook(LoginFragment.this)
+										.execute((Void[]) null);
 							}
 						});
 
@@ -376,16 +416,18 @@ public class LoginFragment extends FragmentActivity {
 
 					JSONObject result = json.getJSONObject("Result");
 
-/*					Integer userid = result.getInt("UserId");
-					String fname = result.getString("FirstName");
-					String lname = result.getString("LastName");
-					String email = result.getString("Email");
-					Integer gender = result.getInt("Gender");
-					String birthday = result.getString("DateOfBirth");
-					String status = result.getString("UserStatus");
-					String img = result.getString("ImageUrl");
-					Integer point = result.getInt("PointBalance");*/
-					
+					/*
+					 * Integer userid = result.getInt("UserId"); String fname =
+					 * result.getString("FirstName"); String lname =
+					 * result.getString("LastName"); String email =
+					 * result.getString("Email"); Integer gender =
+					 * result.getInt("Gender"); String birthday =
+					 * result.getString("DateOfBirth"); String status =
+					 * result.getString("UserStatus"); String img =
+					 * result.getString("ImageUrl"); Integer point =
+					 * result.getInt("PointBalance");
+					 */
+
 					Integer userid = result.getInt("UserId");
 					String fname = result.getString("FirstName");
 					String lname = result.getString("LastName");
@@ -399,15 +441,13 @@ public class LoginFragment extends FragmentActivity {
 					JSONObject reststatus = json
 							.getJSONObject("ResponseStatus");
 					successcode = reststatus.getString("Success");
-					
+
 					String apikey = json.getString("Key");
-					
+
 					Constant.currentLoginUser = new UserItem(userid, fname,
 							lname, email, gender, birthday, status, img, point);
-					
+
 					pref.setapikey(apikey);
-					
-					
 
 				} else {
 					JSONObject reststatus = json
@@ -433,22 +473,26 @@ public class LoginFragment extends FragmentActivity {
 
 			if (successcode.equals("1")) {
 				pref.isLogin(true);
-/*				normalLoginLayout.setVisibility(View.GONE);
-				authButton.setVisibility(View.GONE);
-				profileLayout.setVisibility(View.VISIBLE);
-
-				userName.setText(Constant.currentLoginUser.getFirstName()
-						.toString()
-						+ " "
-						+ Constant.currentLoginUser.getLastName().toString());
-				userEmail.setText(Constant.currentLoginUser.getEmail()
-						.toString());*/
+				/*
+				 * normalLoginLayout.setVisibility(View.GONE);
+				 * authButton.setVisibility(View.GONE);
+				 * profileLayout.setVisibility(View.VISIBLE);
+				 * 
+				 * userName.setText(Constant.currentLoginUser.getFirstName()
+				 * .toString() + " " +
+				 * Constant.currentLoginUser.getLastName().toString());
+				 * userEmail.setText(Constant.currentLoginUser.getEmail()
+				 * .toString());
+				 */
 
 				SharedPreferences.Editor editor = getSharedPreferences(
 						PREFS_NAME, MODE_PRIVATE).edit();
 				editor.putBoolean("loginStatus", true);
 				editor.commit();
-				
+
+				Intent intent = new Intent(LoginFragment.this,
+						HomeActivity.class);
+				startActivity(intent);
 				LoginFragment.this.finish();
 
 			} else {
@@ -474,9 +518,9 @@ public class LoginFragment extends FragmentActivity {
 
 		@Override
 		protected void onPreExecute() {
-//			dialog = ProgressDialog.show(context, "",
-//					getResources().getString(R.string.progesschecking), true);
-//			dialog.show();
+			 dialog = ProgressDialog.show(context, "",
+			 getResources().getString(R.string.progesschecking), true);
+			 dialog.show();
 		}
 
 		@Override
@@ -485,7 +529,8 @@ public class LoginFragment extends FragmentActivity {
 			try {
 				JSONObject loginUser = new JSONObject();
 
-				loginUser.put("AccessToken", Constant.currentLoginUser.getToken());
+				loginUser.put("AccessToken",
+						Constant.currentLoginUser.getToken());
 				JSONObject devInfo = new JSONObject();
 				/*
 				 * Field[] fields = Build.VERSION_CODES.class.getFields(); for
@@ -498,7 +543,7 @@ public class LoginFragment extends FragmentActivity {
 				devInfo.put("UniqueId", telephonyManager.getDeviceId());
 
 				loginUser.put("DeviceInfo", devInfo);
-				
+
 				loginUser.put("ReferralCode", referralCode);
 
 				RestClient client = new RestClient(Constant.BASEWEBSERVICEURL
@@ -530,14 +575,14 @@ public class LoginFragment extends FragmentActivity {
 					JSONObject reststatus = json
 							.getJSONObject("ResponseStatus");
 					successcode = reststatus.getString("Success");
-					
+
 					String apikey = json.getString("Key");
 
 					Constant.currentLoginUser = new UserItem(userid, fname,
 							lname, email, gender, birthday, status, img, point);
-					
+
 					pref.setapikey(apikey);
-					
+
 				} else {
 					JSONObject reststatus = json
 							.getJSONObject("ResponseStatus");
@@ -562,24 +607,25 @@ public class LoginFragment extends FragmentActivity {
 
 			if (successcode.equals("1")) {
 				pref.isLogin(true);
-				/*	normalLoginLayout.setVisibility(View.GONE);
-				authButton.setVisibility(View.GONE);
-				profileLayout.setVisibility(View.VISIBLE);
-
-				userName.setText(Constant.currentLoginUser.getFirstName()
-						.toString()
-						+ " "
-						+ Constant.currentLoginUser.getLastName().toString());
-				userEmail.setText(Constant.currentLoginUser.getEmail()
-						.toString());*/
+				/*
+				 * normalLoginLayout.setVisibility(View.GONE);
+				 * authButton.setVisibility(View.GONE);
+				 * profileLayout.setVisibility(View.VISIBLE);
+				 * 
+				 * userName.setText(Constant.currentLoginUser.getFirstName()
+				 * .toString() + " " +
+				 * Constant.currentLoginUser.getLastName().toString());
+				 * userEmail.setText(Constant.currentLoginUser.getEmail()
+				 * .toString());
+				 */
 
 				SharedPreferences.Editor editor = getSharedPreferences(
 						PREFS_NAME, MODE_PRIVATE).edit();
 				editor.putBoolean("loginStatus", true);
 				editor.commit();
-				
-				
-				Intent intent = new Intent(LoginFragment.this, HomeActivity.class);
+
+				Intent intent = new Intent(LoginFragment.this,
+						HomeActivity.class);
 				startActivity(intent);
 				LoginFragment.this.finish();
 			} else {
@@ -587,7 +633,7 @@ public class LoginFragment extends FragmentActivity {
 						.show();
 			}
 
-//			dialog.dismiss();
+			 dialog.dismiss();
 		}
 	}
 

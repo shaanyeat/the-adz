@@ -37,6 +37,8 @@ import com.lockscreen.adapter.UserItem;
     public static final String KEY_APIKEY = "apiKey";
     public static final String KEY_LAT = "latitude";
     public static final String KEY_LONG = "longtitude";
+    
+    public static final String KEY_VERSION = "applicationVersion";
 
     
     
@@ -113,6 +115,21 @@ import com.lockscreen.adapter.UserItem;
 //		Constant.currentLoginUser.setApiKey(pref.getString(KEY_APIKEY, null));
     }
     
+    public void updateProfile(){
+    	editor.putString(KEY_FIRSTNAME, Constant.currentLoginUser.getFirstName());
+		editor.putString(KEY_LASTNAME, Constant.currentLoginUser.getLastName());
+		editor.commit();
+    }
+    
+    public void setAppVersion(String version){
+    	editor.putString(KEY_VERSION, version);
+    	editor.commit();
+    }
+    
+    public String getAppVersion(){
+    	return pref.getString(KEY_VERSION, null);
+    }
+    
     
     public boolean GetLogin(){
     	
@@ -124,10 +141,21 @@ import com.lockscreen.adapter.UserItem;
     }
   
     public void logoutUser(){
-    	if (Session.getActiveSession() != null) {
-			Session.getActiveSession().closeAndClearTokenInformation();
+    	Session session = Session.getActiveSession();
+		if (session != null) {
+
+			if (!session.isClosed()) {
+				session.closeAndClearTokenInformation();
+				// clear your preferences if saved
+			}
+		} else {
+
+			session = new Session(_context);
+			Session.setActiveSession(session);
+
+			session.closeAndClearTokenInformation();
+			// clear your preferences if saved
 		}
-		Session.setActiveSession(null);
         editor.clear();
         editor.commit();
     }

@@ -67,6 +67,8 @@
     <!-- User Details -->
     <string name="btnfriends">Invite Friends and Earn More</string>
     <string name="btninterest">My Interests</string>
+    <string name="btnupdate">Update Profile</string>
+    <string name="updatesuccess">Update successfully</string>
     
     <!-- Input Dialog -->
     <string name="referraltitle">Referral Code</string>

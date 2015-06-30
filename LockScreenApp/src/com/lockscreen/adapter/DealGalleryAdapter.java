@@ -1,7 +1,7 @@
 package com.lockscreen.adapter;
 
 /*Developer: TAI ZHEN KAI
-Project 2015*/
+ Project 2015*/
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,10 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
+import android.preference.PreferenceManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -24,6 +27,7 @@ import android.widget.Toast;
 import com.lockscreen.LockScreenAppActivity;
 import com.lockscreen.R;
 import com.lockscreen.WebViewActivity;
+import com.lockscreen.application.HomeActivity;
 import com.lockscreen.application.RegisterActivity;
 import com.lockscreen.fragment.LoginFragment;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -103,8 +107,11 @@ public class DealGalleryAdapter extends PagerAdapter {
 					intent.putExtra("imageurl", item.linkUrl);
 					activity.startActivity(intent);
 				} else {
+
 					Intent intent = new Intent(activity, LoginFragment.class);
 					activity.startActivity(intent);
+					activity.finish();
+
 				}
 
 			}
