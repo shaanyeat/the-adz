@@ -9,12 +9,12 @@
     <ImageView
         android:id="@+id/campaignImg"
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:background="#000" />
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:layout_below="@id/campaignImg"
         android:orientation="vertical"
         android:paddingLeft="5dp" >
@@ -32,7 +32,7 @@
             android:layout_height="20dp"
             android:text="CampaignMerchantName" />
 
-        <TextView
+        <!-- <TextView
             android:id="@+id/points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:textSize="14sp"
             android:text="0 points"
             android:layout_marginRight="5dp"
-            android:textColor="#fff" />
+            android:textColor="#fff" /> -->
     </LinearLayout>
 
 </RelativeLayout>

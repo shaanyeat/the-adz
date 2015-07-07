@@ -17,11 +17,12 @@ public class RewardItem {
 	public Boolean typeDelivery;
 	public Boolean typeMoney;
 	public Boolean Mobile;
+	public Integer pointRequired;
 
 	public RewardItem(Integer rewardId, String name, String description,
 			String imageId, String imageName, String imageUrl,
 			String imageUrlLink, Integer typeId, String TypeName,
-			Boolean typeDelivery, Boolean typeMoney, Boolean Mobile) {
+			Boolean typeDelivery, Boolean typeMoney, Boolean Mobile, Integer pointRequired) {
 
 		this.rewardId = rewardId;
 		this.name = name;
@@ -35,6 +36,7 @@ public class RewardItem {
 		this.typeDelivery = typeDelivery;
 		this.typeMoney = typeMoney;
 		this.Mobile = Mobile;
+		this.pointRequired = pointRequired;
 
 	}
 }

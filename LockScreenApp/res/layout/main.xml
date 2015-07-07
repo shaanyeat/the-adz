@@ -47,19 +47,21 @@
             android:textSize="50sp"
             android:textStyle="bold" />
         
+        
+        
 
         <RelativeLayout
             android:id="@+id/selectlayout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp" >
 
             <ImageView
                 android:id="@+id/droid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="20dp"
                 android:src="@drawable/select" />
         </RelativeLayout>
 
@@ -80,6 +82,7 @@
                 android:visibility="visible" />
         </LinearLayout>
 
+        <!--
         <com.getbase.floatingactionbutton.FloatingActionsMenu
             android:id="@+id/multiple_actions"
             android:layout_width="wrap_content"
@@ -111,9 +114,7 @@
                 fab:fab_colorPressed="@color/white_pressed"
                 fab:fab_title="Action B" />
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
+        -->
     </RelativeLayout>
-    
-    
-   
 
 </LinearLayout>

@@ -77,7 +77,7 @@ public class ProfileActivity extends FragmentActivity {
 		actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		options = new DisplayImageOptions.Builder().cacheInMemory(true)
+		options = new DisplayImageOptions.Builder().cacheInMemory(false)
 				.cacheOnDisk(true).considerExifParams(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
 

@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 
 import com.lockscreen.adapter.UserItem;
 
@@ -65,6 +66,12 @@ public class Constant {
 		BitmapFactory.Options o2 = new BitmapFactory.Options();
 		o2.inSampleSize = scale;
 		return BitmapFactory.decodeFile(filePath, o2);
+	}
+	
+	public static int pxToDp(int px, Context Context) {
+	    DisplayMetrics displayMetrics = Context.getResources().getDisplayMetrics();
+	    int dp = Math.round(px / (displayMetrics.heightPixels / DisplayMetrics.DENSITY_DEFAULT));
+	    return dp * 4;
 	}
 
 }

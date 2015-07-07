@@ -4,15 +4,11 @@ package com.lockscreen.adapter;
  Project 2015*/
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
-import android.preference.PreferenceManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -22,13 +18,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.lockscreen.LockScreenAppActivity;
 import com.lockscreen.R;
 import com.lockscreen.WebViewActivity;
-import com.lockscreen.application.HomeActivity;
-import com.lockscreen.application.RegisterActivity;
 import com.lockscreen.fragment.LoginFragment;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -45,13 +37,12 @@ public class DealGalleryAdapter extends PagerAdapter {
 	DisplayImageOptions options;
 
 	// constructor
-	public DealGalleryAdapter(Activity activity,
-			ArrayList<CampaignItem> imagePaths, Boolean dummyflag) {
+	public DealGalleryAdapter(Activity activity, ArrayList<CampaignItem> imagePaths, Boolean dummyflag) {
 		this.activity = activity;
 		this.mItems = imagePaths;
 		this.dummyflag = dummyflag;
 
-		options = new DisplayImageOptions.Builder().cacheInMemory(true)
+		options = new DisplayImageOptions.Builder().cacheInMemory(false)
 				.cacheOnDisk(true).considerExifParams(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
 	}

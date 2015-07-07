@@ -4,7 +4,6 @@ package com.lockscreen.fragment;
 Project 2015*/
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,14 +24,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.etsy.android.grid.StaggeredGridView;
 import com.lockscreen.R;
-import com.lockscreen.WebViewActivity;
 import com.lockscreen.adapter.CampaignItem;
 import com.lockscreen.application.CampaignDetails;
 import com.lockscreen.utility.Constant;
@@ -44,7 +40,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class CampaignFragment extends Fragment {
 
-	GridView campaignGrid;
+	StaggeredGridView campaignGrid;
 	private ArrayList<CampaignItem> cItems;
 	DisplayImageOptions options;
 	
@@ -59,13 +55,14 @@ public class CampaignFragment extends Fragment {
 		
 		pref = new SharedPreference(getActivity());
 
-		options = new DisplayImageOptions.Builder().cacheInMemory(true)
+		options = new DisplayImageOptions.Builder()
+				.cacheInMemory(false)
 				.cacheOnDisk(true).considerExifParams(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
 
 		cItems = new ArrayList<CampaignItem>();
 
-		campaignGrid = (GridView) rootView.findViewById(R.id.campaignGrid);
+		campaignGrid = (StaggeredGridView) rootView.findViewById(R.id.campaignGrid);
 
 		// get campaign List
 		new campaingList(getActivity()).execute((Void[]) null);
@@ -96,14 +93,6 @@ public class CampaignFragment extends Fragment {
 		protected Integer doInBackground(Void... ignored) {
 			Integer returnCode = 0;
 			try {
-
-//				JSONObject campaignCoor = new JSONObject();
-
-//				campaignCoor.put("latitude", "3.31766");
-//				campaignCoor.put("longitude", "101.4839");
-//				campaignCoor.put("latitude", null);
-//				campaignCoor.put("longitude", null);
-
 				RestClient client = new RestClient(Constant.BASEWEBSERVICEURL
 						+ "campaign/list");
 
@@ -113,8 +102,6 @@ public class CampaignFragment extends Fragment {
 				client.AddHeader("Key", pref.getapikey());
 
 				client.Execute(RestClient.GET);
-//				Log.v("Campaign_List", campaignCoor.toString());
-//				client.ExecuteHybridJsonPost(campaignCoor.toString());
 
 				String response = client.getResponse();
 				Log.v("Campaign_List", response);
@@ -130,28 +117,15 @@ public class CampaignFragment extends Fragment {
 
 						Integer id = res.getInt("CampaignId");
 						String name = res.getString("Name");
-//						String refercode = res.getString("ReferenceCode");
-//						String startdate = res.getString("Start");
-//						String enddate = res.getString("End");
 						Integer mId = res.getInt("MerchantId");
 						String mName = res.getString("MerchantName");
-//						String imgId = res.getString("SubImageId");
-//						String imgName = res.getString("SubImageName");
-//						String imgUrl = res.getString("SubImageUrl");
-//						JSONArray imgarr = res.getJSONArray(("SubImageUrl"));
-//						String imgUrl = imgarr.getString(0);
-//						
-//						String ImgUrlLink = res.getString("SubImageUrlLink");
-
 						String imgName = res.getString("ImageName");
 						String imgUrl = res.getString("ImageUrl");
 						String linkurl = res.getString("LinkURL");
+						Integer imgWidth = res.getInt("ImageWidth");
+						Integer imgHeight = res.getInt("ImageHeight");
 						
-//						cItems.add(new CampaignItem(id, name, refercode,
-//								startdate, enddate, mId, mName, imgId, imgName,
-//								imgUrl, ImgUrlLink));
-						
-						cItems.add(new CampaignItem(id, name, mId, mName, imgName,imgUrl, linkurl));
+						cItems.add(new CampaignItem(id, name, mId, mName, imgName,imgUrl, linkurl, imgWidth, imgHeight));
 						
 
 					}
@@ -191,6 +165,7 @@ public class CampaignFragment extends Fragment {
 				
 				ItemAdapter adapter = new ItemAdapter(getActivity(), cItems);
 				campaignGrid.setAdapter(adapter);
+
 			}
 
 			dialog.dismiss();
@@ -259,6 +234,13 @@ public class CampaignFragment extends Fragment {
 
 			holder.cName.setText(item.campaignName);
 			holder.campaignMerchantName.setText(item.merchanName);
+			
+			Log.v("Height", Integer.toString(Constant.pxToDp(item.imgHeight, activity)));
+			
+			holder.campaignImg.getLayoutParams().height = Constant.pxToDp(item.imgHeight, activity);
+//			holder.campaignImg.getLayoutParams().width = Constant.pxToDp(item.imgWidth, activity);
+			
+			holder.campaignImg.requestLayout();
 			
 			ImageLoader imageLoader = ImageLoader.getInstance();
 			imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));

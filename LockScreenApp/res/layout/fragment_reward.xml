@@ -4,8 +4,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/sub_bg"
     android:orientation="vertical" >
+    
+    <ListView 
+        android:id="@+id/reward_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
 
-    <GridView
+   <!--  <GridView
         android:id="@+id/reward_grid"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -13,6 +19,6 @@
         android:horizontalSpacing="10dp"
         android:numColumns="2"
         android:padding="8dp"
-        android:verticalSpacing="10dp" />
+        android:verticalSpacing="10dp" /> -->
 
 </RelativeLayout>

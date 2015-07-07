@@ -4,7 +4,7 @@
  * aapt tool from the resource data it found.  It
  * should not be modified by hand.
  */
-package android.support.v7.appcompat;
+package com.etsy.android.grid;
 
 public final class R {
 	public static final class anim {
@@ -69,6 +69,9 @@ public final class R {
 		public static final int colorPrimary = 0x7f01004d;
 		public static final int colorPrimaryDark = 0x7f01004e;
 		public static final int colorSwitchThumbNormal = 0x7f010054;
+		public static final int column_count = 0x7f0100a9;
+		public static final int column_count_landscape = 0x7f0100ab;
+		public static final int column_count_portrait = 0x7f0100aa;
 		public static final int commitIcon = 0x7f010080;
 		public static final int contentInsetEnd = 0x7f010068;
 		public static final int contentInsetLeft = 0x7f010069;
@@ -91,6 +94,10 @@ public final class R {
 		public static final int expandActivityOverflowButtonDrawable = 0x7f010085;
 		public static final int gapBetweenBars = 0x7f01009c;
 		public static final int goIcon = 0x7f01007d;
+		public static final int grid_paddingBottom = 0x7f0100b0;
+		public static final int grid_paddingLeft = 0x7f0100ad;
+		public static final int grid_paddingRight = 0x7f0100ae;
+		public static final int grid_paddingTop = 0x7f0100af;
 		public static final int height = 0x7f010001;
 		public static final int hideOnContentScroll = 0x7f010066;
 		public static final int homeAsUpIndicator = 0x7f01002c;
@@ -101,6 +108,7 @@ public final class R {
 		public static final int initialActivityCount = 0x7f010084;
 		public static final int isLightTheme = 0x7f010002;
 		public static final int itemPadding = 0x7f010065;
+		public static final int item_margin = 0x7f0100ac;
 		public static final int layout = 0x7f010079;
 		public static final int listChoiceBackgroundIndicator = 0x7f01004c;
 		public static final int listPopupWindowStyle = 0x7f010046;
@@ -842,6 +850,15 @@ public final class R {
 		public static final int Spinner_popupPromptView = 9;
 		public static final int Spinner_prompt = 7;
 		public static final int Spinner_spinnerMode = 8;
+		public static final int[] StaggeredGridView = { 0x7f0100a9, 0x7f0100aa, 0x7f0100ab, 0x7f0100ac, 0x7f0100ad, 0x7f0100ae, 0x7f0100af, 0x7f0100b0 };
+		public static final int StaggeredGridView_column_count = 0;
+		public static final int StaggeredGridView_column_count_landscape = 2;
+		public static final int StaggeredGridView_column_count_portrait = 1;
+		public static final int StaggeredGridView_grid_paddingBottom = 7;
+		public static final int StaggeredGridView_grid_paddingLeft = 4;
+		public static final int StaggeredGridView_grid_paddingRight = 5;
+		public static final int StaggeredGridView_grid_paddingTop = 6;
+		public static final int StaggeredGridView_item_margin = 3;
 		public static final int[] SwitchCompat = { 0x01010124, 0x01010125, 0x01010142, 0x7f0100a2, 0x7f0100a3, 0x7f0100a4, 0x7f0100a5, 0x7f0100a6, 0x7f0100a7, 0x7f0100a8 };
 		public static final int SwitchCompat_android_textOff = 1;
 		public static final int SwitchCompat_android_textOn = 0;

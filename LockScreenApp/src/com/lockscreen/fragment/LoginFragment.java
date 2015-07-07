@@ -93,7 +93,7 @@ public class LoginFragment extends FragmentActivity {
 		 */
 		authButton = (LoginButton) findViewById(R.id.authButton);
 		// authButton.setFragment(this);
-		authButton.setReadPermissions(Arrays.asList("email", "user_location"));
+		authButton.setReadPermissions(Arrays.asList("email"));
 
 		/*
 		 * userName = (TextView) findViewById(R.id.userName); userPic =

@@ -45,6 +45,7 @@ import android.widget.Toast;
 import com.lockscreen.adapter.AdapterOfflineAdz;
 import com.lockscreen.adapter.CampaignItem;
 import com.lockscreen.adapter.DealGalleryAdapter;
+import com.lockscreen.adapter.DefaultLandingAdapter;
 import com.lockscreen.loader.ImageLoader;
 import com.lockscreen.utility.Constant;
 import com.lockscreen.utility.RestClient;
@@ -73,6 +74,7 @@ public class LockScreenAppActivity extends Activity {
 	DigitalClock dc;
 	SharedPreference pref;
 	private ArrayList<CampaignItem> cItems;
+	private ArrayList<Integer> defaultItems;
 
 	private static int currentPage;
 
@@ -152,13 +154,14 @@ public class LockScreenAppActivity extends Activity {
 		imageLoader = new ImageLoader(this);
 
 		cItems = new ArrayList<CampaignItem>();
+		defaultItems = new ArrayList<Integer>();
 		subImg = new ArrayList<String>();
 		subImgUrl = new ArrayList<String>();
 
 		droid = (ImageView) findViewById(R.id.droid);
 
-		System.out.println("measured width" + droid.getMeasuredWidth());
-		System.out.println(" width" + droid.getWidth());
+		System.out.println("measured width " + droid.getMeasuredWidth());
+		System.out.println("width " + droid.getWidth());
 
 		if (getIntent() != null && getIntent().hasExtra("kill")
 				&& getIntent().getExtras().getInt("kill") == 1) {
@@ -178,17 +181,19 @@ public class LockScreenAppActivity extends Activity {
 					PhoneStateListener.LISTEN_CALL_STATE);
 
 			windowwidth = getWindowManager().getDefaultDisplay().getWidth();
-			System.out.println("windowwidth" + windowwidth);
+			System.out.println("windowwidth " + windowwidth);
 			windowheight = getWindowManager().getDefaultDisplay().getHeight();
-			System.out.println("windowheight" + windowheight);
+			System.out.println("windowheight " + windowheight);
 
 			MarginLayoutParams marginParams2 = new MarginLayoutParams(
 					droid.getLayoutParams());
 
 			if (isTablet(this))
-				marginParams2.setMargins(0, windowheight - 60, 0, 0);
+//				marginParams2.setMargins(0, windowheight - 80, 0, 0);
+			marginParams2.setMargins(0, 0, 0, 0);
 			else
-				marginParams2.setMargins(0, (windowheight / 32) * 28, 0, 0);
+//				marginParams2.setMargins(0, (windowheight / 32) * 28, 0, 0);
+			marginParams2.setMargins(0, 0, 0, 0);
 
 			// marginParams2.setMargins((windowwidth / 24) * 10,
 			// ((windowheight / 32) * 15), 0, 0);
@@ -249,19 +254,20 @@ public class LockScreenAppActivity extends Activity {
 						}
 
 						layoutParams.leftMargin = x_cord;
-						layoutParams.topMargin = y_cord;
+//						layoutParams.topMargin = y_cord;
+						layoutParams.topMargin = 0;
 
 						droid.getLocationOnScreen(droidpos);
 						v.setLayoutParams(layoutParams);
 
-						if (((x_cord - home_x) <= (windowwidth / 24) * 4 && (home_x - x_cord) <= (windowwidth / 24) * 3)
-								&& ((home_y - y_cord) <= (windowheight / 32) * 2)) {
+//						if (((x_cord - home_x) <= (windowwidth / 24) * 4 && (home_x - x_cord) <= (windowwidth / 24) * 3) && ((home_y - y_cord) <= (windowheight / 32) * 2)) {
+						if (((x_cord - home_x) <= (windowwidth / 24) * 4 && (home_x - x_cord) <= (windowwidth / 24) * 3)) {
 							System.out.println("home overlapps");
-							System.out.println("homeee" + home_x + "  "
+							System.out.println("home " + home_x + "  "
 									+ (int) event.getRawX() + "  " + x_cord
 									+ " " + droidpos[0]);
 
-							System.out.println("homeee" + home_y + "  "
+							System.out.println("home " + home_y + "  "
 									+ (int) event.getRawY() + "  " + y_cord
 									+ " " + droidpos[1]);
 
@@ -271,15 +277,15 @@ public class LockScreenAppActivity extends Activity {
 							// Uri.parse("content://contacts/people/")));
 							finish();
 						} else {
-							System.out.println("homeee" + home_x + "  "
+							System.out.println("home " + home_x + "  "
 									+ (int) event.getRawX() + "  " + x_cord
 									+ " " + droidpos[0]);
 
-							System.out.println("homeee" + home_y + "  "
+							System.out.println("home " + home_y + "  "
 									+ (int) event.getRawY() + "  " + y_cord
 									+ " " + droidpos[1]);
 
-							System.out.println("home notttt overlapps");
+							System.out.println("home not overlapps");
 						}
 
 						break;
@@ -291,11 +297,11 @@ public class LockScreenAppActivity extends Activity {
 						if (((x_cord1 - home_x) <= (windowwidth / 24) * 4 && (home_x - x_cord1) <= (windowwidth / 24) * 3)
 								&& ((home_y - y_cord2) <= (windowheight / 32) * 2)) {
 							System.out.println("home overlapps");
-							System.out.println("homeee" + home_x + "  "
+							System.out.println("home " + home_x + "  "
 									+ (int) event.getRawX() + "  " + x_cord1
 									+ " " + droidpos[0]);
 
-							System.out.println("homeee" + home_y + "  "
+							System.out.println("home " + home_y + "  "
 									+ (int) event.getRawY() + "  " + y_cord2
 									+ " " + droidpos[1]);
 
@@ -308,9 +314,11 @@ public class LockScreenAppActivity extends Activity {
 							// layoutParams.bottomMargin = 5;
 
 							if (isTablet(LockScreenAppActivity.this))
-								layoutParams.topMargin = windowheight - 60;
+//								layoutParams.topMargin = windowheight - 80;
+								layoutParams.topMargin = 0;
 							else
-								layoutParams.topMargin = (windowheight / 32) * 28;
+//								layoutParams.topMargin = (windowheight / 32) * 28;
+								layoutParams.topMargin = 0;
 
 							// layoutParams.leftMargin = (windowwidth / 24) *
 							// 10;
@@ -546,12 +554,11 @@ public class LockScreenAppActivity extends Activity {
 
 			if (cItems.size() == 0) {
 				// cItems.add("https://dl.dropboxusercontent.com/u/76631556/AppStream/dummylock.png");
-				cItems.add(new CampaignItem(
-						"https://dl.dropboxusercontent.com/u/76631556/AppStream/dummylock.png"));
+				defaultItems.add(R.drawable.landing_default);
 				try {
 					// Pass results to ViewPagerAdapter Class
-					DealGalleryAdapter adapter = new DealGalleryAdapter(
-							LockScreenAppActivity.this, cItems, true);
+					DefaultLandingAdapter adapter = new DefaultLandingAdapter(
+							LockScreenAppActivity.this, defaultItems);
 					// Binds the Adapter to the ViewPager
 					viewPager.setAdapter(adapter);
 

@@ -2,26 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shape_post"  
-    android:orientation="vertical">
+    android:background="#ffffff"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/productImage"
-        android:layout_width="fill_parent"
+        android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_margin="2dp"
-        android:background="#FFFFFF"/>
+        android:scaleType="fitXY"
+        android:background="#ffffff"/>
 
-    <View 
-        android:layout_width="fill_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginBottom="4dp"
-        android:background="#cccccc"
-        />
     <RelativeLayout 
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
         <TextView
@@ -29,17 +22,46 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="8dp"
-            android:textColor="#0078d7"
+            android:paddingTop="8dp"
+            android:textStyle="bold"
+            android:text="asdsa"
+            android:textSize="14sp"
             android:paddingRight="8dp" />
 
         <TextView 
             android:id="@+id/productDesc"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:paddingRight="8dp"
+            android:text="asdasd"
             android:paddingLeft="8dp"
             android:layout_below="@id/productName"
             /> 
+            
+        <TextView
+            android:id="@+id/points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/productDesc"
+            android:background="@drawable/button_style"
+			android:layout_marginLeft="8dp"
+			android:layout_marginTop="10dp"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:paddingTop="5dp"
+			android:paddingBottom="5dp"
+            android:textSize="12sp"
+            android:text="0 points"
+            android:textColor="#fff" />
+        
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_reward"
+            android:layout_below="@id/productDesc"
+			android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            />
         
     </RelativeLayout>
 </LinearLayout>

@@ -37,7 +37,7 @@ public class RedeemActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.redeem);
+		setContentView(R.layout.fragment_redeem);
 
 		actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);

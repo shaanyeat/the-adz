@@ -25,6 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lockscreen.R;
@@ -39,7 +40,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class RewardsFragment extends Fragment {
 
-	GridView reward_grid;
+	ListView reward_list;
+//	GridView reward_grid;
 	SharedPreference pref;
 
 	private ArrayList<RewardItem> cItems;
@@ -52,13 +54,14 @@ public class RewardsFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_reward, container,
 				false);
 
-		reward_grid = (GridView) rootView.findViewById(R.id.reward_grid);
+//		reward_grid = (GridView) rootView.findViewById(R.id.reward_grid);
+		reward_list = (ListView) rootView.findViewById(R.id.reward_list);
 
 		pref = new SharedPreference(getActivity());
 
 		cItems = new ArrayList<RewardItem>();
 
-		options = new DisplayImageOptions.Builder().cacheInMemory(true)
+		options = new DisplayImageOptions.Builder().cacheInMemory(false)
 				.cacheOnDisk(true).considerExifParams(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
 
@@ -130,11 +133,12 @@ public class RewardsFragment extends Fragment {
 						Boolean typeMoney = res
 								.getBoolean("RewardTypeMoneyTransfer");
 						Boolean typeMobile = res.getBoolean("RewardTypeMobile");
+						Integer pointrequired = res.getInt("PointRequired");
 
 						cItems.add(new RewardItem(id, name, description,
 								subImageId, subImageName, subImageUrl,
 								subImageLink, typeId, typeName, typeDeliver,
-								typeMoney, typeMobile));
+								typeMoney, typeMobile, pointrequired));
 					}
 
 					JSONObject reststatus = json
@@ -166,7 +170,7 @@ public class RewardsFragment extends Fragment {
 			// UI work allowed here
 
 			ItemAdapter adapter = new ItemAdapter(getActivity(), cItems);
-			reward_grid.setAdapter(adapter);
+			reward_list.setAdapter(adapter);
 
 			dialog.dismiss();
 		}
@@ -204,6 +208,7 @@ public class RewardsFragment extends Fragment {
 			public TextView productName;
 			public ImageButton productOverflow;
 			public TextView productDesc;
+			public TextView points;
 		}
 
 		@Override
@@ -225,6 +230,7 @@ public class RewardsFragment extends Fragment {
 						.findViewById(R.id.productName);
 				holder.productDesc = (TextView) convertView
 						.findViewById(R.id.productDesc);
+				holder.points = (TextView) convertView.findViewById(R.id.points);
 
 				convertView.setTag(holder);
 			} else {
@@ -235,6 +241,7 @@ public class RewardsFragment extends Fragment {
 
 			holder.productName.setText(itemreward.name);
 			holder.productDesc.setText(itemreward.description);
+			holder.points.setText(itemreward.pointRequired + " " + "Points");
 
 			ImageLoader.getInstance().displayImage(itemreward.imageUrl,
 					holder.productImage, options);
